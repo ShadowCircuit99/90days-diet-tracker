@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instruktur Pribadi Kamu</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--bg2:#161820;--bg3:#1e2028;--kartu:#181a22;
+  --border:#252730;--aksen:#c8ff57;--aksen2:#57c8ff;--aksen3:#ff7043;
+  --aksen4:#a78bfa;--teks:#eef0f8;--redup:#6b7080;--sukses:#4ade80;
+  --warn:#fbbf24;--bahaya:#f87171;
+  --fj:'Bebas Neue',sans-serif;--fi:'Plus Jakarta Sans',sans-serif;--fk:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--teks);font-family:var(--fi);min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* ── LAYAR ── */
+.layar{display:none;min-height:100vh;}
+.layar.aktif{display:block;}
+#la.aktif{display:flex;}
+
+/* ════════════════════════════════
+   LANDING — CLEAN & INFORMATIF
+════════════════════════════════ */
+#la{
+  flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;text-align:center;padding:3rem 1.5rem;
+  background:#0a0f1a;position:relative;overflow:hidden;
+}
+#la::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(200,255,87,.08) 0%,transparent 70%);
+}
+.la-inner{position:relative;z-index:2;max-width:600px;width:100%;}
+
+/* Kredit pengembang — MENONJOL di landing */
+.la-dev{margin-bottom:2.2rem;}
+.la-dev-by{font-family:var(--fk);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--redup);margin-bottom:.35rem;}
+.la-dev-nama{
+  font-family:var(--fj);font-size:2.2rem;letter-spacing:.06em;color:var(--aksen);
+  text-shadow:0 0 40px rgba(200,255,87,.35);line-height:1;
+}
+.la-dev-title{font-size:.75rem;color:rgba(238,240,248,.4);margin-top:.25rem;font-style:italic;}
+
+.la-judul{
+  font-family:var(--fj);font-size:clamp(3.2rem,9vw,6rem);
+  line-height:.95;color:#fff;margin-bottom:.8rem;
+}
+.la-judul em{color:var(--aksen);font-style:normal;}
+.la-sub{font-size:1rem;color:rgba(238,240,248,.55);margin-bottom:2.2rem;line-height:1.7;max-width:480px;margin-left:auto;margin-right:auto;}
+
+/* 3 poin utama */
+.la-poin{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2rem;}
+.la-poin-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:.9rem .65rem;}
+.lp-judul{font-weight:700;font-size:.82rem;color:var(--teks);margin-bottom:.3rem;}
+.lp-desc{font-size:.72rem;color:var(--redup);line-height:1.55;}
+
+/* Before / After */
+.la-ba{
+  display:grid;grid-template-columns:1fr 28px 1fr;gap:.5rem;align-items:center;
+  background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+  border-radius:10px;padding:.9rem;margin-bottom:1.5rem;
+}
+.ba-sisi{text-align:center;}
+.ba-tag{font-family:var(--fk);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;}
+.ba-tag.sbl{color:var(--bahaya);}
+.ba-tag.ssd{color:var(--sukses);}
+.ba-baris{font-size:.78rem;color:var(--redup);line-height:1.95;}
+.ba-baris .ok{color:var(--teks);}
+.ba-arr{font-size:1.1rem;color:var(--redup);text-align:center;}
+
+.la-note{
+  font-size:.71rem;color:rgba(238,240,248,.38);margin-bottom:1.8rem;
+  line-height:1.6;background:rgba(251,191,36,.03);
+  border:1px solid rgba(251,191,36,.12);border-radius:8px;padding:.7rem 1rem;
+}
+.la-cta{
+  background:var(--aksen);color:#0a1628;font-family:var(--fj);
+  font-size:1.35rem;letter-spacing:.06em;
+  padding:.85rem 3rem;border:none;border-radius:6px;cursor:pointer;transition:all .2s;
+}
+.la-cta:hover{background:#d4ff6a;transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,255,87,.25);}
+
+@media(max-width:520px){
+  .la-poin{grid-template-columns:1fr 1fr;}
+  .la-ba{grid-template-columns:1fr;gap:.3rem;}
+  .ba-arr{display:none;}
+}
+
+/* ════════════════════════════════
+   FORM
+════════════════════════════════ */
+#lf{background:var(--bg);padding:1.5rem;}
+.f-wrap{max-width:540px;margin:0 auto;padding:1.5rem 0 5rem;}
+.f-back{background:none;border:none;color:var(--redup);font-family:var(--fi);font-size:.85rem;cursor:pointer;margin-bottom:2rem;display:flex;align-items:center;gap:.5rem;}
+.f-back:hover{color:var(--aksen);}
+.f-h1{font-family:var(--fj);font-size:2.6rem;margin-bottom:.4rem;}
+.f-sub{color:var(--redup);font-size:.88rem;line-height:1.6;margin-bottom:2rem;}
+
+.sek{margin-bottom:2rem;}
+.sek-judul{font-family:var(--fk);font-size:.63rem;letter-spacing:.18em;color:var(--aksen);text-transform:uppercase;margin-bottom:.9rem;padding-bottom:.45rem;border-bottom:1px solid var(--border);}
+.grp{margin-bottom:1rem;}
+.grp label{display:block;font-size:.82rem;color:var(--redup);margin-bottom:.4rem;font-weight:500;}
+.grp input,.grp select{
+  width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--teks);
+  padding:.72rem 1rem;border-radius:8px;font-family:var(--fi);font-size:.92rem;
+  transition:border-color .2s;outline:none;
+}
+.grp input:focus,.grp select:focus{border-color:var(--aksen);}
+.grp select option{background:var(--bg2);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;}
+.g2r{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;}
+.g4{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;}
+
+.rb{position:relative;}
+.rb input{position:absolute;opacity:0;pointer-events:none;}
+.rb label{
+  display:block;padding:.6rem .5rem;text-align:center;
+  border:1px solid var(--border);border-radius:8px;cursor:pointer;
+  font-size:.82rem;font-weight:500;transition:all .2s;background:var(--bg2);line-height:1.4;
+}
+.rb input:checked+label{border-color:var(--aksen);background:rgba(200,255,87,.09);color:var(--aksen);}
+
+/* Penjelasan tujuan */
+.tujuan-ket{
+  background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+  padding:.8rem 1rem;margin-top:.7rem;font-size:.81rem;color:var(--redup);line-height:1.6;display:none;
+}
+.tujuan-ket.tampil{display:block;}
+.tujuan-ket strong{color:var(--teks);}
+
+.pv-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:.9rem;margin-top:.75rem;display:none;}
+.pv-box.tampil{display:block;}
+.pv-row{display:flex;justify-content:space-between;font-size:.83rem;margin-bottom:.3rem;}
+.pv-row:last-child{margin-bottom:0;}
+.pv-row span:last-child{color:var(--aksen);font-family:var(--fk);font-weight:600;}
+
+.f-alert{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:.85rem 1rem;font-size:.83rem;color:var(--bahaya);margin-top:.75rem;line-height:1.6;display:none;}
+.f-alert.tampil{display:block;}
+.f-warn{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:8px;padding:.85rem 1rem;font-size:.83rem;color:var(--warn);margin-top:.75rem;line-height:1.6;display:none;}
+.f-warn.tampil{display:block;}
+
+.f-submit{
+  width:100%;margin-top:1.5rem;background:var(--aksen);color:#0a1628;
+  font-family:var(--fj);font-size:1.25rem;letter-spacing:.06em;
+  padding:.85rem;border:none;border-radius:8px;cursor:pointer;transition:all .2s;
+}
+.f-submit:hover{background:#d4ff6a;transform:translateY(-1px);}
+.f-submit:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+
+/* ════════════════════════════════
+   PROGRAM HEADER
+════════════════════════════════ */
+#lp{background:var(--bg);}
+.ph{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.ph-logo{font-family:var(--fj);font-size:1.35rem;color:var(--aksen);letter-spacing:.04em;}
+.ph-fase{font-family:var(--fk);font-size:.58rem;padding:.2rem .58rem;border-radius:20px;text-transform:uppercase;letter-spacing:.1em;}
+.f1{background:rgba(87,200,255,.1);color:var(--aksen2);border:1px solid rgba(87,200,255,.22);}
+.f2{background:rgba(200,255,87,.1);color:var(--aksen);border:1px solid rgba(200,255,87,.22);}
+.f3{background:rgba(167,139,250,.1);color:var(--aksen4);border:1px solid rgba(167,139,250,.22);}
+.f4{background:rgba(255,112,67,.1);color:var(--aksen3);border:1px solid rgba(255,112,67,.22);}
+.ph-aksi{display:flex;gap:.45rem;}
+.bsm{background:var(--bg3);border:1px solid var(--border);color:var(--redup);padding:.38rem .75rem;border-radius:6px;cursor:pointer;font-size:.77rem;font-family:var(--fi);transition:all .2s;}
+.bsm:hover{border-color:var(--aksen);color:var(--aksen);}
+
+/* Strip ringkasan */
+.ps{
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  border-bottom:1px solid var(--border);padding:.85rem 1.2rem;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;
+}
+.ps-i{text-align:center;}
+.ps-v{font-family:var(--fj);font-size:1.35rem;}
+.c1{color:var(--aksen);}
+.c2{color:var(--aksen2);}
+.c3{color:var(--aksen3);}
+.c4{color:var(--sukses);}
+.ps-l{font-size:.58rem;color:var(--redup);text-transform:uppercase;letter-spacing:.07em;margin-top:.1rem;}
+
+/* Today highlight */
+.today-bar{
+  background:linear-gradient(135deg,rgba(200,255,87,.08),rgba(87,200,255,.06));
+  border:1px solid rgba(200,255,87,.2);border-radius:10px;
+  padding:.85rem 1rem;margin:1rem 1.2rem .3rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.today-left h4{font-family:var(--fj);font-size:1.1rem;color:var(--aksen);line-height:1;}
+.today-left p{font-size:.75rem;color:var(--redup);margin-top:.2rem;}
+.today-right{font-family:var(--fk);font-size:.75rem;color:var(--redup);text-align:right;}
+.today-right strong{color:var(--teks);display:block;font-size:.88rem;}
+
+/* Reminder */
+.reminder-bar{
+  background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.18);
+  border-radius:8px;padding:.6rem 1rem;margin:.4rem 1.2rem;
+  font-size:.8rem;color:var(--warn);display:none;
+}
+.reminder-bar.tampil{display:block;}
+
+/* Tab */
+.tab-bar{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto;}
+.tab-btn{flex-shrink:0;padding:.68rem 1.05rem;font-size:.82rem;color:var(--redup);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all .2s;font-family:var(--fi);white-space:nowrap;font-weight:500;}
+.tab-btn.a{color:var(--aksen);border-bottom-color:var(--aksen);}
+.tab-isi{display:none;padding:1.1rem;}
+.tab-isi.a{display:block;}
+
+/* Nav minggu */
+.nm{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;}
+.nm-kiri h2{font-family:var(--fj);font-size:1.35rem;}
+.nm-kiri p{font-size:.76rem;color:var(--redup);}
+.bnav{background:var(--bg2);border:1px solid var(--border);color:var(--teks);padding:.4rem .9rem;border-radius:6px;cursor:pointer;font-family:var(--fi);font-size:.82rem;transition:all .2s;}
+.bnav:hover{border-color:var(--aksen);color:var(--aksen);}
+.bnav:disabled{opacity:.3;cursor:not-allowed;}
+
+/* Progres bar */
+.pbw{margin-bottom:1.1rem;}
+.pbt{display:flex;justify-content:space-between;font-size:.72rem;color:var(--redup);margin-bottom:.3rem;}
+.pbtrack{background:var(--bg3);border-radius:3px;height:5px;overflow:hidden;}
+.pbfill{height:100%;background:var(--aksen);border-radius:3px;transition:width .5s;}
+
+/* Kartu hari */
+.hl{display:flex;flex-direction:column;gap:.75rem;}
+.hk{background:var(--kartu);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.hk.selesai{border-color:rgba(74,222,128,.22);}
+.hk.hari-ini{border-color:rgba(200,255,87,.35);box-shadow:0 0 0 1px rgba(200,255,87,.1);}
+.hk.terlewat{border-color:rgba(248,113,113,.18);}
+
+.hh{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;cursor:pointer;user-select:none;}
+.ct{
+  width:21px;height:21px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  cursor:pointer;transition:all .2s;font-size:.62rem;font-weight:700;
+}
+.ct.v{background:var(--sukses);border-color:var(--sukses);color:#0a1628;}
+.h-nom{font-family:var(--fj);font-size:1.15rem;color:var(--redup);min-width:2rem;}
+.h-nam{font-weight:600;font-size:.88rem;flex:1;}
+.h-lbl{display:flex;gap:.3rem;flex-wrap:wrap;}
+.lbl{font-size:.58rem;padding:.16rem .42rem;border-radius:3px;font-family:var(--fk);text-transform:uppercase;letter-spacing:.05em;}
+.li{background:rgba(107,112,128,.12);color:var(--redup);}
+.ll{background:rgba(200,255,87,.12);color:var(--aksen);}
+.lk{background:rgba(87,200,255,.12);color:var(--aksen2);}
+.lr{background:rgba(248,113,113,.12);color:var(--bahaya);}
+.lhari{background:rgba(200,255,87,.2);color:var(--aksen);}
+.lterlewat{background:rgba(248,113,113,.15);color:var(--bahaya);}
+.harr{color:var(--redup);font-size:.72rem;transition:transform .3s;}
+.harr.o{transform:rotate(180deg);}
+
+.hi{display:none;padding:0 1rem 1rem;}
+.hi.o{display:block;}
+
+/* Makan */
+.msek{margin-bottom:.9rem;}
+.mjdl{font-size:.66rem;font-family:var(--fk);letter-spacing:.12em;text-transform:uppercase;color:var(--redup);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem;}
+.mjdl::before{content:'';display:block;width:3px;height:10px;border-radius:2px;background:var(--aksen3);}
+.mjdl.sng::before{background:var(--aksen2);}
+.mjdl.mlm::before{background:var(--aksen4);}
+.ml{display:flex;flex-direction:column;gap:.28rem;}
+.mi{display:flex;align-items:center;justify-content:space-between;padding:.42rem .6rem;background:var(--bg2);border-radius:6px;gap:.45rem;font-size:.82rem;}
+.mn{flex:1;line-height:1.4;}
+.mj{font-family:var(--fk);font-size:.68rem;color:var(--aksen);white-space:nowrap;}
+.mnote{font-size:.7rem;color:var(--redup);font-style:italic;}
+.bgnt{background:transparent;border:1px solid var(--border);color:var(--redup);padding:.1rem .38rem;border-radius:3px;font-size:.6rem;cursor:pointer;font-family:var(--fi);transition:all .2s;flex-shrink:0;}
+.bgnt:hover{border-color:var(--aksen2);color:var(--aksen2);}
+
+/* Latihan */
+.lsek{margin-top:.85rem;}
+.ljdl{font-size:.66rem;font-family:var(--fk);letter-spacing:.12em;text-transform:uppercase;color:var(--redup);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem;}
+.ljdl::before{content:'';display:block;width:3px;height:10px;border-radius:2px;background:var(--aksen);}
+.llist{display:flex;flex-direction:column;gap:.42rem;}
+.litm{background:var(--bg2);border-radius:8px;overflow:hidden;}
+.lih{display:flex;align-items:center;justify-content:space-between;padding:.62rem .82rem;cursor:pointer;}
+.lnm{font-weight:600;font-size:.87rem;}
+.lmeta{font-family:var(--fk);font-size:.63rem;color:var(--redup);margin-top:.14rem;}
+.laksi{display:flex;gap:.32rem;flex-shrink:0;}
+.btmr{background:var(--aksen);color:#0a1628;border:none;border-radius:4px;padding:.22rem .55rem;font-size:.63rem;cursor:pointer;font-family:var(--fk);font-weight:600;}
+.bdet{background:transparent;border:1px solid var(--border);color:var(--redup);border-radius:4px;padding:.22rem .55rem;font-size:.63rem;cursor:pointer;font-family:var(--fi);}
+.bdet:hover{border-color:var(--aksen2);color:var(--aksen2);}
+
+/* Detail latihan — MODAL (bukan inline) */
+.ld{display:none;padding:.7rem .82rem;border-top:1px solid var(--border);}
+.ld.o{display:block;}
+
+/* Bagian detail: 1.Info cepat 2.Cara 3.Teknis 4.Kesalahan 5.Otot */
+.det-blok{margin-bottom:.7rem;}
+.det-blok:last-child{margin-bottom:0;}
+.det-blok-judul{font-family:var(--fk);font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--redup);margin-bottom:.35rem;}
+.det-info-cepat{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.5rem;
+}
+.dic-item{background:var(--bg3);border-radius:5px;padding:.35rem .5rem;text-align:center;}
+.dic-val{font-family:var(--fk);font-size:.8rem;color:var(--aksen);font-weight:600;}
+.dic-lbl{font-size:.6rem;color:var(--redup);margin-top:.1rem;}
+.det-langkah{display:flex;flex-direction:column;gap:.25rem;}
+.det-lk{display:flex;gap:.5rem;font-size:.8rem;line-height:1.6;}
+.det-lkno{font-family:var(--fk);color:var(--aksen);font-size:.64rem;min-width:1.35rem;padding-top:.17rem;flex-shrink:0;}
+.det-teknis{display:flex;gap:.45rem;flex-wrap:wrap;}
+.det-tek-item{font-family:var(--fk);font-size:.65rem;background:var(--bg3);padding:.2rem .5rem;border-radius:4px;}
+.det-tek-item span{color:var(--aksen2);}
+.det-salah{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.16);border-radius:6px;padding:.45rem .6rem;font-size:.76rem;color:var(--warn);line-height:1.6;}
+.det-otot{font-size:.72rem;color:var(--aksen4);}
+.det-modif{background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.16);border-radius:6px;padding:.42rem .6rem;font-size:.76rem;color:var(--sukses);line-height:1.6;margin-top:.35rem;}
+
+/* Warmup / cooldown */
+.wc-sek{background:rgba(87,200,255,.04);border:1px solid rgba(87,200,255,.1);border-radius:8px;padding:.65rem .8rem;margin-bottom:.7rem;}
+.wc-judul{font-family:var(--fk);font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--aksen2);margin-bottom:.4rem;}
+.wc-list{font-size:.8rem;color:var(--redup);line-height:1.8;}
+
+/* Fase note */
+.fn{margin-top:.75rem;padding:.5rem .72rem;background:rgba(87,200,255,.04);border-radius:6px;border-left:3px solid var(--aksen2);}
+.fn-j{font-size:.63rem;font-family:var(--fk);text-transform:uppercase;letter-spacing:.08em;color:var(--aksen2);margin-bottom:.2rem;}
+.fn-i{font-size:.79rem;color:var(--redup);line-height:1.6;}
+.nn{font-size:.67rem;color:var(--redup);margin-top:.45rem;font-family:var(--fk);}
+
+/* ════════════════════════════════
+   CHECKLIST HARIAN
+════════════════════════════════ */
+.checklist-sek{margin-top:.9rem;background:var(--bg2);border-radius:8px;padding:.7rem .85rem;}
+.checklist-judul{font-family:var(--fk);font-size:.63rem;text-transform:uppercase;letter-spacing:.1em;color:var(--redup);margin-bottom:.55rem;}
+.cklist{display:flex;flex-direction:column;gap:.3rem;}
+.ck-item{display:flex;align-items:center;gap:.55rem;font-size:.82rem;cursor:pointer;}
+.ck-box{width:16px;height:16px;border:2px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.ck-box.v{background:var(--sukses);border-color:var(--sukses);}
+.ck-box.v::after{content:'✓';color:#0a1628;font-size:.55rem;font-weight:700;}
+.ck-teks{color:var(--redup);}
+.ck-teks.v{color:var(--teks);text-decoration:line-through;opacity:.6;}
+
+/* ════════════════════════════════
+   TAB PANTAUAN
+════════════════════════════════ */
+.kstreak{background:linear-gradient(135deg,rgba(74,222,128,.07),rgba(87,200,255,.05));border:1px solid rgba(74,222,128,.18);border-radius:12px;padding:1.2rem;text-align:center;margin-bottom:1rem;}
+.str-angka{font-family:var(--fj);font-size:4rem;color:var(--sukses);line-height:1;}
+.str-label{color:var(--redup);font-size:.82rem;margin-top:.3rem;}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1rem;}
+.tk{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:1rem;}
+.tk h3{font-family:var(--fj);font-size:1.2rem;margin-bottom:.85rem;}
+.irow{display:flex;gap:.55rem;}
+.irow input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--teks);padding:.62rem .8rem;border-radius:7px;font-family:var(--fi);font-size:.87rem;outline:none;}
+.irow input:focus{border-color:var(--aksen);}
+.bcat{background:var(--aksen);color:#0a1628;border:none;border-radius:7px;padding:.62rem .85rem;font-weight:700;cursor:pointer;font-size:.83rem;}
+.rlist{margin-top:.85rem;max-height:115px;overflow-y:auto;display:flex;flex-direction:column;gap:.25rem;}
+.ri{display:flex;justify-content:space-between;font-size:.77rem;padding:.28rem .48rem;background:var(--bg2);border-radius:4px;}
+.ri span:last-child{font-family:var(--fk);color:var(--aksen);}
+.gw{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1rem;}
+.gw h3{font-family:var(--fj);font-size:1.2rem;margin-bottom:.85rem;}
+canvas{max-height:195px;}
+
+/* Catatan tambahan */
+.catatan-sek{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1rem;}
+.catatan-kartu{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:.9rem;}
+.catatan-kartu h4{font-size:.82rem;font-weight:600;margin-bottom:.55rem;color:var(--teks);}
+.catatan-row{display:flex;gap:.55rem;align-items:center;}
+.catatan-row input,.catatan-row select{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--teks);padding:.55rem .75rem;border-radius:7px;font-family:var(--fi);font-size:.85rem;outline:none;}
+.catatan-row input:focus,.catatan-row select:focus{border-color:var(--aksen);}
+.energi-btn{display:flex;gap:.4rem;}
+.ebtn{background:var(--bg2);border:1px solid var(--border);color:var(--redup);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s;font-family:var(--fi);}
+.ebtn.aktif{background:rgba(200,255,87,.15);border-color:var(--aksen);color:var(--aksen);}
+.air-row{display:flex;align-items:center;gap:.55rem;}
+.air-count{font-family:var(--fj);font-size:1.8rem;color:var(--aksen2);min-width:2rem;text-align:center;}
+.air-gelas{font-size:.75rem;color:var(--redup);}
+.bbtn{background:var(--bg2);border:1px solid var(--border);color:var(--teks);width:30px;height:30px;border-radius:6px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.bbtn:hover{border-color:var(--aksen);color:var(--aksen);}
+.nyeri-input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--teks);padding:.55rem .75rem;border-radius:7px;font-family:var(--fi);font-size:.84rem;outline:none;margin-top:.3rem;}
+.nyeri-input:focus{border-color:var(--warn);}
+.simpan-harian{background:var(--aksen);color:#0a1628;border:none;border-radius:7px;padding:.58rem 1.1rem;font-weight:700;cursor:pointer;font-size:.82rem;margin-top:.4rem;font-family:var(--fi);}
+
+.mk{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:.75rem;}
+.mk h3{font-family:var(--fj);font-size:1.2rem;margin-bottom:.75rem;color:var(--aksen3);}
+.mlist{display:flex;flex-direction:column;gap:.38rem;}
+.mitem{display:flex;align-items:flex-start;gap:.55rem;font-size:.84rem;padding:.42rem .6rem;background:var(--bg2);border-radius:6px;line-height:1.5;}
+.mdot{width:6px;height:6px;border-radius:50%;background:var(--aksen3);flex-shrink:0;margin-top:.45rem;}
+
+/* Insight progres */
+.insight-kartu{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:.75rem;}
+.insight-kartu h3{font-family:var(--fj);font-size:1.2rem;margin-bottom:.75rem;color:var(--aksen4);}
+.insight-list{display:flex;flex-direction:column;gap:.5rem;}
+.insight-item{background:var(--bg2);border-radius:7px;padding:.55rem .75rem;font-size:.82rem;line-height:1.55;border-left:3px solid var(--border);}
+.insight-item.baik{border-left-color:var(--sukses);}
+.insight-item.warn{border-left-color:var(--warn);}
+.insight-item.info{border-left-color:var(--aksen2);}
+.insight-kosong{color:var(--redup);font-size:.83rem;font-style:italic;}
+
+/* ════════════════════════════════
+   TAB PELATIH
+════════════════════════════════ */
+.ck2{background:var(--kartu);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin-bottom:.85rem;}
+.ck2 h3{font-family:var(--fj);font-size:1.4rem;margin-bottom:.85rem;}
+.cki{font-size:.86rem;line-height:1.75;}
+.cki strong{color:var(--aksen);}
+.tbox{background:rgba(200,255,87,.05);border:1px solid rgba(200,255,87,.15);border-radius:8px;padding:.85rem;margin-top:.65rem;font-size:.83rem;line-height:1.65;}
+.abox{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);border-radius:8px;padding:.85rem;margin-top:.65rem;font-size:.83rem;color:var(--bahaya);line-height:1.65;}
+.sbox{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);border-radius:8px;padding:.85rem;margin-top:.65rem;font-size:.83rem;color:var(--sukses);line-height:1.65;}
+
+/* ════════════════════════════════
+   MODAL
+════════════════════════════════ */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:100;align-items:center;justify-content:center;padding:1rem;}
+.mo.o{display:flex;}
+.mb{background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:100%;max-width:450px;max-height:88vh;overflow-y:auto;padding:1.25rem;}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
+.mt{font-family:var(--fj);font-size:1.5rem;}
+.mc{background:var(--bg3);border:1px solid var(--border);color:var(--redup);width:29px;height:29px;border-radius:50%;cursor:pointer;font-size:.88rem;display:flex;align-items:center;justify-content:center;}
+
+/* Timer */
+.tdisp{text-align:center;padding:1.4rem 0;}
+.tcirc{
+  width:145px;height:145px;border-radius:50%;border:4px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 1.2rem;position:relative;overflow:hidden;
+}
+.tcirc::before{content:'';position:absolute;inset:0;background:conic-gradient(var(--aksen) var(--p,0%),var(--bg3) 0%);opacity:.17;}
+.twkt{font-family:var(--fj);font-size:2.7rem;color:var(--aksen);position:relative;}
+.tfase{font-size:.7rem;color:var(--redup);position:relative;}
+.tinfo{font-family:var(--fk);font-size:.78rem;color:var(--redup);text-align:center;margin-bottom:1.1rem;}
+.tbtns{display:flex;gap:.55rem;justify-content:center;}
+.tbtn{padding:.62rem 1.5rem;border-radius:7px;font-family:var(--fj);font-size:1.05rem;letter-spacing:.06em;cursor:pointer;border:none;}
+.tbm{background:var(--aksen);color:#0a1628;}
+.tbj{background:var(--aksen3);color:#fff;}
+.tbu{background:var(--bg3);color:var(--redup);border:1px solid var(--border);}
+
+/* Modal konfirmasi */
+.kbtns{display:flex;gap:.55rem;margin-top:1.2rem;}
+.bbhaya{background:var(--bahaya);color:#fff;border:none;padding:.62rem 1.2rem;border-radius:6px;cursor:pointer;font-family:var(--fi);font-size:.86rem;}
+.bbtl{background:var(--bg3);color:var(--teks);border:1px solid var(--border);padding:.62rem 1.2rem;border-radius:6px;cursor:pointer;font-family:var(--fi);font-size:.86rem;}
+
+/* Ganti menu */
+.glist{display:flex;flex-direction:column;gap:.5rem;margin-top:.85rem;}
+.gitm{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.7rem .85rem;cursor:pointer;transition:all .2s;}
+.gitm:hover{border-color:var(--aksen2);}
+.gnm{font-weight:600;font-size:.87rem;}
+.gdet{font-size:.72rem;color:var(--redup);margin-top:.16rem;font-family:var(--fk);}
+
+/* Footer */
+.fp{text-align:center;padding:1.6rem 1rem 3rem;font-size:.7rem;color:var(--redup);border-top:1px solid var(--border);margin-top:1.5rem;}
+.fp span{color:var(--redup);}
+
+@media(max-width:600px){
+  .ps{grid-template-columns:repeat(2,1fr);}
+  .tgrid{grid-template-columns:1fr;}
+  .g2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ LANDING ════ -->
+<div id="la" class="layar">
+  <div class="la-inner">
+    <div class="la-dev">
+      <div class="la-dev-by">Dipersembahkan oleh</div>
+      <div class="la-dev-nama">Muhamad Rafi Apriyansyah</div>
+      <div class="la-dev-title">Program Latihan &amp; Nutrisi Berbasis Data</div>
+    </div>
+
+    <h1 class="la-judul">INSTRUKTUR<br><em>PRIBADI</em><br>KAMU</h1>
+    <p class="la-sub">Program latihan rumahan dan pola makan 90 hari yang digenerate otomatis dari data tubuhmu. Setiap orang dapat program yang berbeda.</p>
+
+    <div class="la-poin">
+      <div class="la-poin-item">
+        <div class="lp-judul">Nutrisi Terukur</div>
+        <div class="lp-desc">Kalori &amp; makro dihitung dengan formula Mifflin-St Jeor, standar ahli gizi</div>
+      </div>
+      <div class="la-poin-item">
+        <div class="lp-judul">Latihan Adaptif</div>
+        <div class="lp-desc">Gerakan menyesuaikan usia, gender, berat, dan tingkat kebugaran</div>
+      </div>
+      <div class="la-poin-item">
+        <div class="lp-judul">Pelatih Pintar</div>
+        <div class="lp-desc">Analisis progres mingguan dan saran spesifik berdasarkan data nyata</div>
+      </div>
+    </div>
+
+    <div class="la-ba">
+      <div class="ba-sisi">
+        <div class="ba-tag sbl">Sebelum</div>
+        <div class="ba-baris">
+          <div>Berat tidak terkontrol</div>
+          <div>Makan tanpa ukuran</div>
+          <div>Latihan tidak terarah</div>
+        </div>
+      </div>
+      <div class="ba-arr">&#x2192;</div>
+      <div class="ba-sisi">
+        <div class="ba-tag ssd">Setelah 90 Hari</div>
+        <div class="ba-baris">
+          <div class="ok">Berat bergerak ke target</div>
+          <div class="ok">Pola makan lebih teratur</div>
+          <div class="ok">Kebiasaan aktif terbentuk</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="la-note">Bukan program diet ekstrem. Penurunan berat yang sehat adalah 0,5–1 kg per minggu. Selisih berat dan target lebih dari 20 kg akan meminta konsultasi dokter terlebih dahulu.</div>
+
+    <button class="la-cta" onclick="mulaiBuat()">Mulai Program Saya</button>
+  </div>
+</div>
+
+<!-- ════ FORM ════ -->
+<div id="lf" class="layar">
+  <div class="f-wrap">
+    <button class="f-back" onclick="tampilLayar('la')">&#x2190; Kembali</button>
+    <div class="f-h1">Data Kamu</div>
+    <div class="f-sub">Semua program digenerate dari data ini. Isi dengan jujur agar hasilnya sesuai kondisi tubuhmu.</div>
+
+    <div class="sek">
+      <div class="sek-judul">Data Fisik</div>
+      <div class="g2">
+        <div class="grp"><label>Berat Badan Sekarang (kg)</label><input type="number" id="f-bb" placeholder="cth: 70" min="30" max="300" step="0.1" oninput="periksaForm()"></div>
+        <div class="grp"><label>Target Berat Badan (kg)</label><input type="number" id="f-tg" placeholder="cth: 65" min="30" max="300" step="0.1" oninput="periksaForm()"></div>
+      </div>
+      <div class="g2">
+        <div class="grp"><label>Tinggi Badan (cm)</label><input type="number" id="f-tb" placeholder="cth: 170" min="130" max="220" oninput="periksaForm()"></div>
+        <div class="grp"><label>Usia (tahun)</label><input type="number" id="f-um" placeholder="cth: 25" min="12" max="90" oninput="periksaForm()"></div>
+      </div>
+      <div id="f-alert" class="f-alert">Perbedaan berat dan target lebih dari 20 kg. Perubahan sebesar ini sebaiknya didampingi dokter atau ahli gizi. Silakan konsultasikan terlebih dahulu.</div>
+      <div id="f-warn" class="f-warn"></div>
+      <div id="f-pv" class="pv-box">
+        <div class="pv-row"><span>Indeks Massa Tubuh</span><span id="p-bmi">–</span></div>
+        <div class="pv-row"><span>Kategori</span><span id="p-kat">–</span></div>
+        <div class="pv-row"><span>Berat Ideal</span><span id="p-idl">–</span></div>
+        <div class="pv-row"><span>Estimasi Kalori Harian</span><span id="p-kal">–</span></div>
+      </div>
+    </div>
+
+    <div class="sek">
+      <div class="sek-judul">Jenis Kelamin</div>
+      <div class="g2r">
+        <div class="rb"><input type="radio" name="gdr" id="gp" value="pria" checked onchange="periksaForm()"><label for="gp">Laki-laki</label></div>
+        <div class="rb"><input type="radio" name="gdr" id="gw" value="wanita" onchange="periksaForm()"><label for="gw">Perempuan</label></div>
+      </div>
+    </div>
+
+    <div class="sek">
+      <div class="sek-judul">Aktivitas Harian (di luar program ini)</div>
+      <div class="g2r">
+        <div class="rb"><input type="radio" name="akt" id="a1" value="mager" onchange="periksaForm()"><label for="a1">Hampir tidak gerak<br><small style="color:var(--redup);font-weight:400">Kerja duduk seharian</small></label></div>
+        <div class="rb"><input type="radio" name="akt" id="a2" value="ringan" checked onchange="periksaForm()"><label for="a2">Gerak ringan<br><small style="color:var(--redup);font-weight:400">Jalan kaki, berdiri sesekali</small></label></div>
+        <div class="rb"><input type="radio" name="akt" id="a3" value="sedang" onchange="periksaForm()"><label for="a3">Cukup aktif<br><small style="color:var(--redup);font-weight:400">Olahraga 1–2x seminggu</small></label></div>
+        <div class="rb"><input type="radio" name="akt" id="a4" value="aktif" onchange="periksaForm()"><label for="a4">Sangat aktif<br><small style="color:var(--redup);font-weight:400">Kerja fisik / olahraga intensif</small></label></div>
+      </div>
+    </div>
+
+    <div class="sek">
+      <div class="sek-judul">Tujuan Program</div>
+      <div class="g4">
+        <div class="rb"><input type="radio" name="tuj" id="t1" value="cutting" checked onchange="tampilKetTujuan('cutting')"><label for="t1">Turun Berat Badan</label></div>
+        <div class="rb"><input type="radio" name="tuj" id="t2" value="maintain" onchange="tampilKetTujuan('maintain')"><label for="t2">Pertahankan Berat</label></div>
+        <div class="rb"><input type="radio" name="tuj" id="t3" value="bulking" onchange="tampilKetTujuan('bulking')"><label for="t3">Naik Massa Otot</label></div>
+        <div class="rb"><input type="radio" name="tuj" id="t4" value="gain" onchange="tampilKetTujuan('gain')"><label for="t4">Naik Berat Badan</label></div>
+      </div>
+      <div id="ket-tujuan" class="tujuan-ket tampil">
+        <strong>Turun Berat Badan (Cutting):</strong> Defisit kalori terkontrol. Berat turun 0,5–1 kg/minggu sambil menjaga massa otot. Protein tinggi agar otot tidak ikut menyusut.
+      </div>
+    </div>
+
+    <div class="sek">
+      <div class="sek-judul">Intensitas Program</div>
+      <div class="g3">
+        <div class="rb"><input type="radio" name="mod" id="m1" value="santai" onchange="periksaForm()"><label for="m1">Santai<br><small style="color:var(--redup);font-weight:400">Perlahan, aman</small></label></div>
+        <div class="rb"><input type="radio" name="mod" id="m2" value="normal" checked onchange="periksaForm()"><label for="m2">Normal<br><small style="color:var(--redup);font-weight:400">Standar</small></label></div>
+        <div class="rb"><input type="radio" name="mod" id="m3" value="ketat" onchange="periksaForm()"><label for="m3">Ketat<br><small style="color:var(--redup);font-weight:400">Maksimal</small></label></div>
+      </div>
+    </div>
+
+    <button class="f-submit" id="f-submit" onclick="buatProgram()">Buat Program 90 Hari Saya</button>
+  </div>
+</div>
+
+<!-- ════ PROGRAM ════ -->
+<div id="lp" class="layar">
+  <div class="ph">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <div class="ph-logo">IP90</div>
+      <div id="badge-fase" class="ph-fase f1">Fase 1</div>
+    </div>
+    <div class="ph-aksi">
+      <button class="bsm" onclick="bukaReset()">Atur Ulang</button>
+      <button class="bsm" onclick="tampilLayar('lf')">Ubah Data</button>
+    </div>
+  </div>
+
+  <div class="ps">
+    <div class="ps-i"><div class="ps-v c1" id="s-kal">–</div><div class="ps-l">Kalori/hari</div></div>
+    <div class="ps-i"><div class="ps-v c2" id="s-pro">–</div><div class="ps-l">Protein (g)</div></div>
+    <div class="ps-i"><div class="ps-v c3" id="s-kar">–</div><div class="ps-l">Karbohidrat (g)</div></div>
+    <div class="ps-i"><div class="ps-v c4" id="s-str">0</div><div class="ps-l">Hari Beruntun</div></div>
+  </div>
+
+  <div class="today-bar" id="today-bar">
+    <div class="today-left">
+      <h4 id="today-h4">Hari ke-1</h4>
+      <p id="today-p">Latihan hari ini dimuat...</p>
+    </div>
+    <div class="today-right">
+      Target kalori hari ini<br>
+      <strong id="today-kal">–</strong>
+    </div>
+  </div>
+  <div class="reminder-bar" id="reminder-bar">Kamu belum menyelesaikan latihan hari ini. Yuk, semangat!</div>
+
+  <div class="tab-bar">
+    <button class="tab-btn a" onclick="gantiTab('jadwal')">Jadwal 90 Hari</button>
+    <button class="tab-btn" onclick="gantiTab('pantauan')">Pantauan</button>
+    <button class="tab-btn" onclick="gantiTab('pelatih')">Pelatih Pintar</button>
+  </div>
+
+  <!-- TAB JADWAL -->
+  <div id="tab-jadwal" class="tab-isi a">
+    <div class="nm">
+      <div class="nm-kiri">
+        <h2 id="jdl-mgg">Minggu 1</h2>
+        <p id="sub-mgg">Hari 1–7</p>
+      </div>
+      <div style="display:flex;gap:.45rem;">
+        <button class="bnav" id="btn-prev" onclick="gantiMinggu(-1)" disabled>Sebelumnya</button>
+        <button class="bnav" id="btn-next" onclick="gantiMinggu(1)">Berikutnya</button>
+      </div>
+    </div>
+    <div class="pbw">
+      <div class="pbt"><span>Progres 90 Hari</span><span id="pct-p">0%</span></div>
+      <div class="pbtrack"><div class="pbfill" id="pbfill" style="width:0%"></div></div>
+    </div>
+    <div class="hl" id="hari-list"></div>
+    <div class="fp">Instruktur Pribadi Kamu &mdash; Dikembangkan oleh <span>Muhamad Rafi Apriyansyah</span></div>
+  </div>
+
+  <!-- TAB PANTAUAN -->
+  <div id="tab-pantauan" class="tab-isi">
+    <div class="kstreak">
+      <div class="str-angka" id="t-streak">0</div>
+      <div class="str-label">Hari Beruntun Aktif</div>
+    </div>
+    <div class="tgrid">
+      <div class="tk">
+        <h3>Catat Berat Badan</h3>
+        <div class="irow">
+          <input type="number" id="bb-input" placeholder="misal: 68.5" step="0.1">
+          <button class="bcat" onclick="tambahBB()">Catat</button>
+        </div>
+        <div class="rlist" id="riwayat-bb"></div>
+      </div>
+      <div class="tk">
+        <h3>Ringkasan</h3>
+        <div id="ringkasan" style="font-size:.82rem;line-height:2.1;"></div>
+      </div>
+    </div>
+
+    <!-- Catatan harian tambahan -->
+    <div class="catatan-sek">
+      <div class="catatan-kartu">
+        <h4>Lingkar Pinggang (cm)</h4>
+        <div class="catatan-row">
+          <input type="number" id="pinggang-input" placeholder="misal: 80.5" step="0.1">
+          <button class="bcat" onclick="tambahPinggang()">Catat</button>
+        </div>
+        <div class="rlist" id="riwayat-pinggang" style="margin-top:.6rem;"></div>
+      </div>
+      <div class="catatan-kartu">
+        <h4>Minum Air Hari Ini</h4>
+        <div class="air-row">
+          <button class="bbtn" onclick="ubahAir(-1)">&#x2212;</button>
+          <div>
+            <div class="air-count" id="air-count">0</div>
+            <div class="air-gelas">gelas (250ml)</div>
+          </div>
+          <button class="bbtn" onclick="ubahAir(1)">+</button>
+          <div style="margin-left:.5rem;font-size:.78rem;color:var(--redup);" id="air-target"></div>
+        </div>
+      </div>
+      <div class="catatan-kartu">
+        <h4>Tingkat Energi Hari Ini</h4>
+        <div class="energi-btn" id="energi-btns">
+          <button class="ebtn" onclick="setEnergi(1)">1</button>
+          <button class="ebtn" onclick="setEnergi(2)">2</button>
+          <button class="ebtn" onclick="setEnergi(3)">3</button>
+          <button class="ebtn" onclick="setEnergi(4)">4</button>
+          <button class="ebtn" onclick="setEnergi(5)">5</button>
+        </div>
+        <div style="font-size:.75rem;color:var(--redup);margin-top:.35rem;" id="energi-ket">1 = sangat lelah &nbsp;·&nbsp; 5 = sangat bertenaga</div>
+      </div>
+      <div class="catatan-kartu">
+        <h4>Catatan Nyeri / Ketidaknyamanan</h4>
+        <input type="text" class="nyeri-input" id="nyeri-input" placeholder="cth: lutut kiri sedikit nyeri saat squat...">
+        <button class="simpan-harian" onclick="simpanHarian()">Simpan Catatan Hari Ini</button>
+      </div>
+    </div>
+
+    <div class="gw">
+      <h3>Grafik Berat Badan</h3>
+      <canvas id="grafik"></canvas>
+    </div>
+
+    <!-- Insight Progres -->
+    <div class="insight-kartu">
+      <h3>Insight Progres</h3>
+      <div class="insight-list" id="insight-list">
+        <div class="insight-kosong">Belum ada data. Mulai catat berat badan untuk mendapatkan insight.</div>
+      </div>
+    </div>
+
+    <div class="mk">
+      <h3>Misi Minggu Ini</h3>
+      <div class="mlist" id="misi-list"></div>
+    </div>
+    <div class="fp">Dikembangkan oleh <span>Muhamad Rafi Apriyansyah</span></div>
+  </div>
+
+  <!-- TAB PELATIH -->
+  <div id="tab-pelatih" class="tab-isi">
+    <div class="ck2">
+      <h3>Analisis Pelatih Pribadi</h3>
+      <div id="coach-isi" class="cki">Memuat analisis...</div>
+    </div>
+    <div class="fp">Dikembangkan oleh <span>Muhamad Rafi Apriyansyah</span></div>
+  </div>
+</div>
+
+<!-- MODAL TIMER -->
+<div class="mo" id="mo-timer">
+  <div class="mb">
+    <div class="mh"><div class="mt" id="tnama">Timer</div><button class="mc" onclick="tutupModal('mo-timer')">&#x2715;</button></div>
+    <div class="tdisp">
+      <div class="tcirc" id="tcirc">
+        <div class="twkt" id="twkt">00:30</div>
+        <div class="tfase" id="tfase">Siap</div>
+      </div>
+      <div class="tinfo" id="tinfo">Set 1 dari 3</div>
+    </div>
+    <div class="tbtns">
+      <button class="tbtn tbm" id="tbm" onclick="mulaiTimer()">MULAI</button>
+      <button class="tbtn tbj" id="tbj" onclick="jedaTimer()" style="display:none">JEDA</button>
+      <button class="tbtn tbu" onclick="ulangTimer()">ULANG</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RESET -->
+<div class="mo" id="mo-reset">
+  <div class="mb">
+    <div class="mh"><div class="mt" style="color:var(--bahaya)">Atur Ulang Program</div><button class="mc" onclick="tutupModal('mo-reset')">&#x2715;</button></div>
+    <p style="color:var(--redup);font-size:.87rem;line-height:1.65;">Semua data termasuk progres, berat badan, dan hari beruntun akan dihapus. Tindakan ini tidak bisa dibatalkan.</p>
+    <div class="kbtns">
+      <button class="bbhaya" onclick="konfirmasiReset()">Ya, Hapus Semua</button>
+      <button class="bbtl" onclick="tutupModal('mo-reset')">Batalkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL GANTI MENU -->
+<div class="mo" id="mo-ganti">
+  <div class="mb">
+    <div class="mh"><div class="mt">Ganti Menu</div><button class="mc" onclick="tutupModal('mo-ganti')">&#x2715;</button></div>
+    <p style="color:var(--redup);font-size:.81rem;" id="ganti-cur">Menu saat ini: –</p>
+    <p id="ganti-panduan" style="display:none;font-size:.78rem;color:var(--warn);background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:6px;padding:.5rem .7rem;margin-top:.4rem;">Pilih pengganti dengan kalori mendekati. Semua pilihan di bawah sudah disesuaikan dengan kebutuhanmu.</p>
+    <div class="glist" id="ganti-list"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════
+// STATE
+// ══════════════════════════════════
+let U=null,N=null,mgg=1,sel={},rwBB=[],rwPG=[],streak=0,grafik=null;
+let timerIv=null,timerSisa=0,timerTotal=0,timerSet=1,timerTS=3,timerR=60,timerFR=false,timerEx=null;
+let gantiCtx=null,gantiPil=[];
+// catatan harian: {air, energi, nyeri}
+let catatanHarian={};
+
+// ══════════════════════════════════
+// STORAGE HELPERS
+// ══════════════════════════════════
+function lsGet(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch{return def;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn('localStorage error',e);}}
+function lsDel(k){try{localStorage.removeItem(k);}catch{}}
+
+// ══════════════════════════════════
+// DATABASE MAKANAN
+// ══════════════════════════════════
+const PROTEIN=[
+  {id:'ayam',nama:'Dada Ayam',k100:165,p100:31,unit:'g',
+   v:['Dada ayam rebus suwir','Ayam kukus bumbu kunyit','Ayam rebus iris bawang putih','Ayam bakar tanpa kulit','Ayam rebus bumbu jahe serai']},
+  {id:'tongkol',nama:'Ikan Tongkol',k100:132,p100:26,unit:'g',
+   v:['Ikan tongkol rebus','Ikan tongkol bakar kecap asin','Ikan tongkol kukus jahe','Ikan tongkol bumbu kuning','Ikan tongkol suwir pedas']},
+  {id:'kembung',nama:'Ikan Kembung',k100:112,p100:22,unit:'g',
+   v:['Ikan kembung bakar','Ikan kembung rebus kuah bening','Ikan kembung kukus bumbu jahe','Ikan kembung panggang kecap','Ikan kembung goreng tipis tanpa tepung']},
+  {id:'lele',nama:'Ikan Lele',k100:116,p100:18,unit:'g',
+   v:['Lele bakar bumbu kecap','Lele bakar sambal hijau','Lele panggang rempah','Lele bakar bumbu bawang','Lele kukus asam pedas']},
+  {id:'telur',nama:'Telur Ayam',k1:78,p1:6.3,unit:'butir',
+   v:['Telur rebus matang','Telur setengah matang','Telur dadar tanpa minyak (teflon)','Telur kukus steam','Telur rebus bumbu kecap']},
+  {id:'tempe',nama:'Tempe',k100:193,p100:19,unit:'g',
+   v:['Tempe bacem rendah gula','Tempe goreng tipis minimal minyak','Tempe orek kering pedas','Tempe kukus bumbu kecap','Tempe mendoan panggang']},
+  {id:'tahu',nama:'Tahu Putih',k100:76,p100:8,unit:'g',
+   v:['Tahu kukus bumbu saus tiram','Tahu bakar kecap bawang','Tahu goreng tanpa tepung','Tahu rebus bumbu kacang lite','Tahu sutera kukus']},
+];
+const KARBO=[
+  {id:'nasi',nama:'Nasi Putih',k100:130,unit:'g',sdm:20,lbl:'sdm nasi'},
+  {id:'nasim',nama:'Nasi Merah',k100:111,unit:'g',sdm:20,lbl:'sdm nasi merah'},
+  {id:'oat',nama:'Oatmeal',k100:68,unit:'g',sdm:10,lbl:'sdm oat kering'},
+  {id:'ubi',nama:'Ubi Merah',k100:86,unit:'g',sdm:30,lbl:'gram ubi'},
+  {id:'roti',nama:'Roti Gandum',k1:69,unit:'lbr',lbl:'lembar roti gandum'},
+  {id:'kentang',nama:'Kentang Rebus',k100:87,unit:'g',sdm:50,lbl:'gram kentang'},
+  {id:'singkong',nama:'Singkong Rebus',k100:154,unit:'g',sdm:40,lbl:'gram singkong'},
+  {id:'jagung',nama:'Jagung Rebus',k100:86,unit:'g',sdm:80,lbl:'gram (±1 tongkol)'},
+];
+const SAYUR=[
+  'Bayam rebus (1 mangkuk, ±100g)',
+  'Kangkung tumis bawang putih, minimal minyak (1 mangkuk)',
+  'Buncis rebus bumbu bawang (½ mangkuk)',
+  'Wortel rebus iris (½ mangkuk, ±80g)',
+  'Kol rebus tipis (1 mangkuk)',
+  'Brokoli kukus (½ mangkuk, ±80g)',
+  'Timun segar + tomat iris (½ mangkuk)',
+  'Lalapan: selada 3 lembar + tomat 1 buah + mentimun ½',
+  'Tauge rebus sebentar (½ mangkuk)',
+  'Sawi hijau tumis bawang putih (1 mangkuk)',
+  'Terong kukus kecap rendah sodium (½ mangkuk)',
+  'Pare rebus kuah bening (½ mangkuk)',
+];
+const BUAH=[
+  {nama:'Pisang raja/ambon',kal:89,ket:'1 buah sedang'},
+  {nama:'Pepaya matang',kal:78,ket:'2 potong besar'},
+  {nama:'Apel',kal:78,ket:'1 buah sedang'},
+  {nama:'Semangka',kal:60,ket:'2 iris sedang'},
+  {nama:'Jeruk manis',kal:84,ket:'2 buah sedang'},
+  {nama:'Melon kuning',kal:68,ket:'2 potong sedang'},
+  {nama:'Pir',kal:86,ket:'1 buah sedang'},
+  {nama:'Nanas',kal:78,ket:'3–4 potong kecil'},
+];
+
+// ══════════════════════════════════
+// DATABASE LATIHAN
+// ══════════════════════════════════
+const LAT={
+  squat:{nama:'Squat Berat Badan',otot:'Paha depan, paha belakang, bokong, betis',
+    langkah:['Berdiri tegak, kaki selebar bahu (60–70 cm), jari kaki sedikit ke luar 15–20°','Angkat kedua tangan ke depan sejajar bahu untuk keseimbangan','Tarik napas, dorong pinggul ke belakang seperti akan duduk di kursi','Turunkan badan terkontrol sampai paha sejajar lantai atau sesuai kemampuan','Pastikan lutut mengikuti arah jari kaki, jangan jatuh ke dalam','Tumit tetap menempel lantai sepanjang gerakan','Dorong lantai dengan tumit, naikkan badan sambil buang napas','Di posisi penuh, kencangkan bokong sejenak'],
+    tempo:'4 dtk turun · 1 dtk tahan · 2 dtk naik',salah:'Tumit terangkat · Lutut jatuh ke dalam · Badan condong ke depan · Tidak turun cukup',
+    alat:'Tidak perlu alat',ml:'Gunakan kursi di belakang sebagai patokan kedalaman. Lebih aman untuk sendi.',mw:''},
+  squat_kursi:{nama:'Squat ke Kursi',otot:'Paha depan, bokong, paha belakang — versi aman sendi',
+    langkah:['Siapkan kursi kokoh di belakangmu','Berdiri membelakangi kursi, kaki selebar bahu','Angkat tangan ke depan untuk keseimbangan','Turunkan badan perlahan ke arah kursi — berhenti saat bokong hampir menyentuh','Langsung naik kembali mendorong dari tumit','Jaga punggung tegak selama gerakan'],
+    tempo:'3 dtk turun · 1 dtk tahan · 2 dtk naik',salah:'Duduk penuh di kursi · Badan membungkuk · Tangan mendorong dari kursi',
+    alat:'Kursi kokoh',ml:'',mw:''},
+  lunges:{nama:'Lunges ke Depan',otot:'Paha depan, paha belakang, bokong, betis, keseimbangan',
+    langkah:['Berdiri tegak, kaki rapat, tangan di pinggang','Langkahkan kaki kanan jauh ke depan sekitar 60–75 cm','Tekuk lutut kanan sampai betis tegak lurus lantai','Turunkan lutut kiri 2–3 cm di atas lantai','Lutut kanan tidak boleh melewati ujung jari kaki','Dorong kuat dengan tumit kanan, kembali berdiri','Ulangi dengan kaki kiri ke depan — 1 kanan + 1 kiri = 1 repetisi'],
+    tempo:'3 dtk turun · 1 dtk tahan · 2 dtk naik',salah:'Langkah terlalu pendek · Badan condong ke depan · Lutut melewati jari kaki · Kehilangan keseimbangan',
+    alat:'Tidak perlu — boleh pegang tembok awal',ml:'Pegang tembok untuk keseimbangan. Perpendek langkah. Lutut belakang hanya sejauh nyaman.',mw:''},
+  plank:{nama:'Plank Siku',otot:'Otot inti, perut, punggung bawah, bahu depan, tricep',
+    langkah:['Posisi tengkurap, siku tepat di bawah bahu, lengan bawah rata di lantai','Jari kaki ditekuk menumpu lantai, angkat badan dalam satu garis lurus','Kepala hingga tumit harus membentuk garis diagonal sempurna','Kencangkan perut: bayangkan bersiap ditendang di perut','Kencangkan bokong dan paha sepanjang durasi','Kepala netral, pandang lantai 30 cm di depan','Bernapas normal, jangan tahan napas'],
+    tempo:'Statis — tahan posisi, bernapas normal tiap 2–3 detik',salah:'Bokong terlalu naik · Pinggang turun/melengkung · Menahan napas · Kepala mendongak',
+    alat:'Matras atau alas tidak licin',ml:'Lakukan dengan lutut di lantai (knee plank). Posisi tetap lurus dari kepala ke lutut.',mw:''},
+  plank_lutut:{nama:'Plank Siku (Modifikasi Lutut)',otot:'Otot inti, perut, punggung bawah — versi lebih mudah',
+    langkah:['Posisi tengkurap, siku di bawah bahu','Tekuk lutut, kaki terangkat — tumpuan di lutut dan lengan bawah','Angkat tubuh — garis lurus dari kepala ke lutut','Kencangkan perut, jaga punggung tidak melengkung','Tahan sesuai durasi, bernapas normal'],
+    tempo:'Statis — bernapas normal',salah:'Bokong terlalu tinggi · Pinggang melengkung ke bawah',
+    alat:'Matras',ml:'',mw:''},
+  wallsit:{nama:'Duduk Dinding',otot:'Paha depan sangat intens, bokong, betis',
+    langkah:['Berdiri membelakangi tembok, posisi 50–60 cm dari tembok','Sandarkan punggung rata ke tembok dari pantat sampai bahu','Turunkan badan sampai paha sejajar lantai (90°)','Tulang kering tegak lurus lantai, lutut di atas tumit','Tekan punggung kuat ke tembok sepanjang waktu','Tangan di atas paha atau di samping — jangan tekan paha','Tahan sambil bernapas pelan dan teratur'],
+    tempo:'Statis — pernapasan perut dalam',salah:'Paha tidak sampai 90° · Lutut melewati jari kaki · Tangan menekan paha · Punggung tidak menempel tembok',
+    alat:'Tembok rata',ml:'Turunkan hanya sampai 45° jika 90° terasa nyeri di lutut.',mw:''},
+  pushup:{nama:'Push-Up',otot:'Dada, bahu depan, tricep, otot inti',
+    langkah:['Posisi tengkurap, tangan selebar bahu + 5 cm, jari ke depan','Jari kaki ditekuk menumpu lantai, luruskan seluruh badan','Kencangkan perut dan bokong sebelum turun','Tekuk siku 45° dari badan — bukan 90° ke samping','Turunkan dada hampir menyentuh lantai (1–2 cm)','Dorong lantai kuat, naikkan badan penuh','Pandangan ke lantai di depan jari tangan'],
+    tempo:'3 dtk turun · 1 dtk tahan · 2 dtk naik',salah:'Siku keluar ke samping · Pinggul naik · Hanya turun setengah · Kepala mendongak',
+    alat:'Tidak perlu — matras opsional',ml:'Gunakan lutut di lantai (knee push-up) atau tangan di tembok (wall push-up).',mw:'Modifikasi lutut sangat disarankan jika kekuatan belum cukup.'},
+  pushup_lutut:{nama:'Push-Up Modifikasi Lutut',otot:'Dada, bahu depan, tricep — versi lebih mudah',
+    langkah:['Posisi tengkurap, tangan selebar bahu + 5 cm','Tekuk lutut — tumpuan di tangan dan lutut','Tubuh lurus dari kepala ke lutut','Turunkan dada hampir menyentuh lantai, siku 45°','Dorong balik ke posisi awal'],
+    tempo:'3 dtk turun · 1 dtk tahan · 2 dtk naik',salah:'Bokong naik · Tidak turun cukup · Siku ke samping',
+    alat:'Matras untuk kenyamanan lutut',ml:'',mw:''},
+  glutebridge:{nama:'Jembatan Bokong',otot:'Bokong, paha belakang, punggung bawah, otot inti',
+    langkah:['Berbaring telentang, lutut ditekuk 90°, kaki rata di lantai selebar pinggul','Tumit sekitar 30 cm dari bokong','Tangan lurus di samping, telapak menghadap bawah','Tekan kaki ke lantai, kencangkan perut','Angkat pinggul hingga badan lurus dari bahu ke lutut','Kencangkan bokong kuat di posisi atas, tahan 1–2 dtk','Turunkan perlahan — berhenti sebelum menyentuh lantai, langsung angkat lagi'],
+    tempo:'2 dtk naik · 2 dtk tahan · 3 dtk turun',salah:'Pinggul tidak naik penuh · Tidak kencangkan bokong · Kaki terlalu jauh/dekat · Punggung melengkung berlebihan',
+    alat:'Matras',ml:'Gerakan ini sangat dianjurkan untuk usia 60+ — memperkuat punggung bawah dan bokong.',mw:''},
+  mountainclimber:{nama:'Pendaki Gunung',otot:'Otot inti, bahu, paha depan, kardio total',
+    langkah:['Posisi push-up: tangan selebar bahu, badan lurus','Kencangkan perut dan bokong','Tarik lutut kanan cepat ke dada','Sebelum kembali, langsung tarik lutut kiri','Bergantian seperti berlari dalam posisi plank','Pinggul tetap stabil, tidak naik turun','Bernapas ritmis'],
+    tempo:'0.5–1 dtk per kaki — ritme lari sedang',salah:'Pinggul naik turun · Langkah terlalu besar · Bahu turun · Core tidak kencang',
+    alat:'Tidak perlu',ml:'Lakukan perlahan: tarik satu lutut, tahan 2 dtk, kembali. Ganti kaki.',mw:''},
+  jumpingjack:{nama:'Loncat Bintang',otot:'Kardio menyeluruh, bahu, paha, betis, koordinasi',
+    langkah:['Berdiri tegak, kaki rapat, tangan di samping','Lompat kecil sambil buka kaki selebar bahu atau lebih','Angkat kedua tangan ke atas hampir bertemu','Lompat lagi kembalikan kaki rapat dan tangan ke sisi','Mendarat dengan lutut sedikit ditekuk','Pertahankan ritme stabil'],
+    tempo:'1 gerakan penuh per detik',salah:'Mendarat lutut lurus · Tangan tidak terangkat penuh · Menghentakkan kaki terlalu keras',
+    alat:'Tidak perlu — pertimbangkan alas empuk',ml:'Ganti dengan "stepping jack": buka kaki ke samping bergantian tanpa lompat, tangan tetap ikut.',mw:''},
+  crunches:{nama:'Crunch Perut',otot:'Perut atas, otot inti',
+    langkah:['Berbaring telentang, lutut ditekuk 90°, kaki rata di lantai','Tangan di belakang kepala, jari kaitkan ringan — jangan tarik kepala','Kencangkan perut, angkat bahu dan kepala 10–15 cm dari lantai','Perut bawah dan pinggang tetap menempel lantai','Tahan 1 dtk di atas — rasakan kontraksi perut atas','Turunkan perlahan, bahu hampir menyentuh lantai'],
+    tempo:'2 dtk naik · 1 dtk tahan · 2 dtk turun',salah:'Menarik leher dengan tangan · Naik terlalu tinggi · Menahan napas · Kaki terangkat',
+    alat:'Matras',ml:'Tangan disilangkan di dada, bukan belakang kepala. Angkat lebih sedikit.',mw:''},
+  highknees:{nama:'Angkat Lutut Tinggi',otot:'Kardio, paha depan, otot inti, betis, koordinasi',
+    langkah:['Berdiri tegak, kaki selebar pinggul','Angkat lutut kanan ke atas hingga sejajar pinggang','Ayunkan tangan kiri ke depan (berlawanan dengan lutut)','Ganti: turunkan kanan, angkat lutut kiri, ayun tangan kanan','Bergantian cepat seperti lari di tempat, lutut tinggi','Mendarat di ujung kaki, jangan hentakkan tumit','Badan tetap tegak'],
+    tempo:'0.5 dtk per kaki — ritme lari ringan',salah:'Lutut tidak cukup tinggi · Mendarat dengan tumit · Badan condong ke belakang · Tangan tidak bergerak',
+    alat:'Tidak perlu',ml:'Lakukan perlahan: angkat satu lutut, tahan 1 dtk, turun. Pegang tembok jika perlu.',mw:''},
+  jalan_cepat:{nama:'Jalan Cepat di Tempat',otot:'Kardio ringan, betis, paha, keseimbangan',
+    langkah:['Berdiri tegak di tempat','Mulai jalan di tempat dengan mengangkat kaki bergantian','Ayunkan tangan berlawanan dengan kaki seperti jalan normal','Tingkatkan kecepatan bertahap sampai terasa hangat','Pertahankan postur tegak, jangan bungkuk','Bernapas teratur'],
+    tempo:'Ritme jalan santai ke sedang',salah:'Terlalu cepat di awal · Tidak mengayunkan tangan · Menunduk ke lantai',
+    alat:'Tidak perlu — aman untuk semua usia',ml:'Pilihan utama kardio untuk usia 60+. Sangat aman dan efektif.',mw:''},
+  stretching:{nama:'Peregangan Seluruh Tubuh',otot:'Semua kelompok otot utama — fleksibilitas dan pemulihan',
+    langkah:['LEHER: Miringkan kepala kanan 20 dtk, kiri 20 dtk, tunduk ke depan 20 dtk','BAHU: Silangkan tangan kanan melintasi dada, tahan dengan tangan kiri — 20 dtk tiap sisi','DADA: Kaitkan tangan di belakang, dorong dada ke depan 25 dtk','PAHA BELAKANG: Duduk, satu kaki lurus, raih ujungnya — 25 dtk tiap sisi','PAHA DEPAN: Berdiri, tekuk satu kaki ke belakang, pegang pergelangan — 25 dtk tiap sisi','BETIS: Hadap tembok, satu kaki belakang tumit rata — tahan 25 dtk tiap sisi'],
+    tempo:'Peregangan statis — tahan dan bernapas dalam. JANGAN dipantulkan.',salah:'Memantulkan (risiko cedera) · Menahan napas · Menarik terlalu keras · Terburu-buru',
+    alat:'Matras sangat dianjurkan',ml:'Semua peregangan bisa dilakukan duduk di kursi. Durasi tahan lebih singkat (15 dtk).',mw:''},
+};
+
+// Warmup & cooldown umum
+const WARMUP=[
+  'Jalan di tempat 2 menit — mulai pelan, tingkatkan bertahap',
+  'Putar bahu ke depan 10x, ke belakang 10x',
+  'Tekuk lutut bergantian (high knees pelan) 30 detik',
+  'Ayun lengan silang ke dada 10x tiap sisi',
+  'Putar pinggang perlahan 10x tiap arah',
+];
+const COOLDOWN=[
+  'Tarik napas dalam 3x — buang perlahan',
+  'Regangkan paha depan: tekuk satu kaki ke belakang, tahan 20 dtk tiap sisi',
+  'Regangkan paha belakang: duduk, kaki lurus ke depan, raih ujung — 20 dtk',
+  'Regangkan bahu: silangkan satu tangan ke dada, tahan 15 dtk tiap sisi',
+  'Tarik napas dalam lagi — rilekskan seluruh otot',
+];
+
+// ══════════════════════════════════
+// SCORE SYSTEM (A · B · C)
+// ══════════════════════════════════
+// A: progress per minggu, hindari bagi-0
+function progressMingguan(){
+  if(!U||rwBB.length<2)return 0;
+  const delta=rwBB[rwBB.length-1].bb-rwBB[0].bb;
+  const tot=Object.values(sel).filter(Boolean).length;
+  const mggJalan=Math.max(1,tot/7);
+  return delta/mggJalan;
+}
+function energiHariIni(){
+  try{
+    const hKey=new Date().toISOString().slice(0,10);
+    return(catatanHarian[hKey]||{}).energi||0;
+  }catch{return 0;}
+}
+// C: gabungkan streak+energi+progress — sederhana, tidak bias
+function hitungScore(){
+  if(!U)return 5; // default tengah jika belum ada data user
+  const streakN=Math.min(streak,14)/14*4;
+  const energiN=(energiHariIni()/5)*3;
+  const progN=(()=>{
+    if(rwBB.length<2)return 1.5;
+    const p=progressMingguan();
+    if(U.tujuan==='cutting')return p<0?3:p===0?1.5:0;
+    if(U.tujuan==='bulking'||U.tujuan==='gain')return p>0?3:1.5;
+    return Math.abs(p)<0.3?3:1.5;
+  })();
+  const raw=streakN+energiN+progN;
+  return Math.max(0,Math.min(10,Math.round(raw*10)/10)); // B: clamp 0–10
+}
+// F: output ringan/normal/naik
+function levelAdaptif(){
+  const s=hitungScore();
+  if(s<=3.5)return'ringan';
+  if(s<=7)return'normal';
+  return'naik';
+}
+
+// H: variasi feedback manusiawi
+const FEEDBACK_SELESAI=[
+  'Bagus, lanjutkan besok.',
+  'Mantap! Konsisten terus.',
+  'Tidak perlu sempurna, cukup konsisten.',
+  'Progres bagus, terus jalan.',
+  'Satu langkah lagi selesai. Lanjutkan.',
+];
+function feedbackSelesai(d){return FEEDBACK_SELESAI[d%FEEDBACK_SELESAI.length];}
+
+// ══════════════════════════════════
+// KATEGORI USIA
+// ══════════════════════════════════
+function katUsia(u){
+  if(u<18)return'remaja';
+  if(u<40)return'dewasa';
+  if(u<50)return'dewasa-mid';
+  if(u<60)return'pra-lansia';
+  return'lansia';
+}
+
+// ══════════════════════════════════
+// NUTRISI — MIFFLIN-ST JEOR
+// ══════════════════════════════════
+function hitungN(u){
+  const bmr=u.gender==='pria'
+    ?(10*u.bb)+(6.25*u.tb)-(5*u.umur)+5
+    :(10*u.bb)+(6.25*u.tb)-(5*u.umur)-161;
+  const pal={mager:1.2,ringan:1.375,sedang:1.55,aktif:1.725}[u.aktivitas];
+  const tdee=bmr*pal;
+
+  // Adjustment per tujuan
+  const adjT={cutting:-400,maintain:0,bulking:300,gain:500}[u.tujuan];
+  const adjM={santai:u.tujuan==='cutting'?100:(u.tujuan==='gain'?-100:0),normal:0,ketat:u.tujuan==='cutting'?-80:(u.tujuan==='gain'?100:0)}[u.mode];
+  const kalT=Math.max(1200,Math.round(tdee+adjT+adjM));
+
+  // Protein: ISSN guidelines
+  const rP={
+    cutting:u.gender==='pria'?2.2:1.9,
+    maintain:u.gender==='pria'?1.7:1.5,
+    bulking:u.gender==='pria'?1.8:1.6,
+    gain:u.gender==='pria'?1.4:1.2,
+  }[u.tujuan];
+  const korU=katUsia(u.umur)==='lansia'?0.2:katUsia(u.umur)==='pra-lansia'?0.1:0;
+  const protein=Math.round(u.bb*(rP+korU));
+  const kalP=protein*4;
+  const pctL=u.tujuan==='cutting'?0.25:0.28;
+  const kalL=Math.round(kalT*pctL);
+  const lemak=Math.round(kalL/9);
+  const kalK=Math.max(0,kalT-kalP-kalL);
+  const karbo=Math.round(kalK/4);
+
+  return{
+    bmr:Math.round(bmr),tdee:Math.round(tdee),kalT,protein,karbo,lemak,
+    kP:Math.round(kalT*.30),kS:Math.round(kalT*.40),kM:Math.round(kalT*.30),
+    proP:Math.round(protein*.30),proS:Math.round(protein*.40),proM:Math.round(protein*.30),
+  };
+}
+
+// ══════════════════════════════════
+// MENU MAKAN
+// ══════════════════════════════════
+function hGram(p,g){
+  if(p.unit==='butir'){const b=Math.max(1,Math.round(g/p.p1));return{lbl:`${b} butir`};}
+  const gr=Math.round(g*100/p.p100);return{lbl:`${gr} gram`};
+}
+function kGram(k,kal){
+  if(k.unit==='lbr'){const l=Math.max(1,Math.round(kal/k.k1));return{lbl:`${l} ${k.lbl}`};}
+  const g=Math.round(kal/(k.k100/100));
+  const s=k.sdm?Math.round(g/k.sdm):null;
+  return{lbl:s?`${g}g (sekitar ${s} ${k.lbl})`:`${g}g`};
+}
+
+function buatMenu(hari,u,n){
+  const h=hari-1;
+  const isCut=u.tujuan==='cutting';
+  const isBulk=u.tujuan==='bulking'||u.tujuan==='gain';
+  // Karbo malam: fleksibel, tidak nol total
+  // cutting: kurangi tapi masih ada karbo malam sekitar 20% porsi normal
+  // Refeed bukan wajib — hanya opsional pada cutting
+  const isRefeed=isCut&&(hari%7===0);
+
+  const pP=PROTEIN[h%PROTEIN.length];
+  const pS=PROTEIN[(h+2)%PROTEIN.length];
+  const pM=PROTEIN[(h+4)%PROTEIN.length];
+  const kP=KARBO[h%KARBO.length];
+  const kS=KARBO[(h+3)%KARBO.length];
+  const kM=KARBO[(h+1)%KARBO.length];
+  const vP=pP.v[h%pP.v.length];
+  const vS=pS.v[(h+1)%pS.v.length];
+  const vM=pM.v[(h+2)%pM.v.length];
+  const sy1=SAYUR[h%SAYUR.length];
+  const sy2=SAYUR[(h+5)%SAYUR.length];
+  const buah=BUAH[h%BUAH.length];
+
+  const ppP=hGram(pP,n.proP),ppS=hGram(pS,n.proS),ppM=hGram(pM,n.proM);
+  const kkP=kGram(kP,n.kP*.45),kkS=kGram(kS,n.kS*.50);
+  // Karbo malam: cutting = 20% porsi normal, maintain/bulk = normal 35–40%
+  const pctKM=isCut&&!isRefeed?0.20:0.38;
+  const kkM=kGram(kM,n.kM*pctKM);
+
+  const catatanMalam=isCut&&!isRefeed?'(porsi karbohidrat dikurangi, dapat disesuaikan kebutuhan)':
+    isRefeed?'(hari refeed opsional — karbohidrat lebih banyak diperbolehkan)':'';
+
+  return{
+    pagi:[
+      {nama:kP.nama,lbl:kkP.lbl,ganti:true,tipe:'karbo'},
+      {nama:vP,lbl:ppP.lbl,ganti:true,tipe:'protein'},
+      {nama:buah.nama,lbl:`${buah.ket} (~${buah.kal} kkal)`,ganti:false},
+    ],
+    siang:[
+      {nama:kS.nama,lbl:kkS.lbl,ganti:true,tipe:'karbo'},
+      {nama:vS,lbl:ppS.lbl,ganti:true,tipe:'protein'},
+      {nama:sy1,lbl:'',ganti:false},
+    ],
+    malam:[
+      {nama:kM.nama,lbl:kkM.lbl+(catatanMalam?` ${catatanMalam}`:''),ganti:true,tipe:'karbo'},
+      {nama:vM,lbl:ppM.lbl,ganti:true,tipe:'protein'},
+      {nama:sy2,lbl:'',ganti:false},
+    ],
+    info:`Estimasi: ${n.kalT} kkal | Protein ${n.protein}g | Karbo ${n.karbo}g | Lemak ${n.lemak}g`,
+    isRefeed,
+  };
+}
+
+// ══════════════════════════════════
+// LATIHAN
+// ══════════════════════════════════
+function getFase(h){return h<=14?1:h<=30?2:h<=60?3:4;}
+function getFaseInfo(mgg){
+  if(mgg<=2)return{fase:1,label:'Fase 1: Adaptasi (Minggu 1–2)',cls:'f1'};
+  if(mgg<=4)return{fase:2,label:'Fase 2: Kontrol (Minggu 3–4)',cls:'f2'};
+  if(mgg<=9)return{fase:3,label:'Fase 3: Progres (Minggu 5–9)',cls:'f3'};
+  return{fase:4,label:'Fase 4: Intensif (Minggu 10–13)',cls:'f4'};
+}
+
+function buatLatihan(hari,u){
+  const kat=katUsia(u.umur);
+  const fase=getFase(hari);
+  const hm=(hari-1)%7;
+  const isL=kat==='lansia',isPL=kat==='pra-lansia',isR=kat==='remaja';
+  const mm={santai:.75,normal:1.0,ketat:1.25}[u.mode];
+  const umM=isL?.55:isPL?.75:isR?.9:1.0;
+  // F: sesuaikan multiplier berdasarkan score adaptif
+  const lvlM={ringan:.8,normal:1.0,naik:1.15}[levelAdaptif()];
+  const fm=mm*umM*lvlM;
+  const gmP=u.gender==='wanita'?.85:1.0;
+  // G: recovery mode jika tidak aktif (score rendah setelah hari 3+)
+  const tot=Object.values(sel).filter(Boolean).length;
+  const recoveryMode=levelAdaptif()==='ringan'&&tot>3;
+
+  if(hm===6)return{tipe:'istirahat',latihan:[],recovery:false,
+    catatan:isL?'Hari istirahat. Jalan santai 10–15 menit atau peregangan duduk.'
+      :'Hari istirahat aktif. Jalan santai 15–20 menit atau peregangan ringan. Istirahat adalah bagian penting dari program.'};
+
+  if(hm===2){
+    const lk=isL?[buatEx('jalan_cepat',fase,fm),buatEx('stretching',1,1)]
+      :isPL?[buatEx('jalan_cepat',fase,fm),buatEx('jumpingjack',fase,fm*.7),buatEx('stretching',1,1)]
+      :[buatEx('jumpingjack',fase,fm),buatEx('highknees',fase,fm),buatEx('mountainclimber',fase,fm),buatEx('stretching',1,1)];
+    return{tipe:'kardio',latihan:lk,recovery:recoveryMode,catatan:isL?'Hari gerakan ringan. Fokus ritme napas, bukan kecepatan.'
+      :'Hari Kardio — naikkan detak jantung, jaga napas terkontrol, targetkan berkeringat ringan.'};
+  }
+
+  const pt=hm%3;
+  let latihan,catatan;
+  const pPU=(isL||isPL||u.gender==='wanita')?'pushup_lutut':'pushup';
+  const pPL=isL?'plank_lutut':'plank';
+  const pSQ=isL?'squat_kursi':'squat';
+  const pKD=isL?'jalan_cepat':'highknees';
+
+  if(pt===0){
+    latihan=isL
+      ?[buatEx('squat_kursi',fase,fm),buatEx('glutebridge',fase,fm),buatEx('wallsit',fase,fm*.7),buatEx('stretching',1,1)]
+      :[buatEx('squat',fase,fm),buatEx('lunges',fase,fm),buatEx('wallsit',fase,fm),buatEx('glutebridge',fase,fm),buatEx('stretching',1,1)];
+    catatan='Latihan Tubuh Bawah — paha, bokong, betis. Jaga punggung tegak.';
+  }else if(pt===1){
+    latihan=isL
+      ?[buatEx(pPU,fase,fm*gmP),buatEx(pPL,fase,fm),buatEx('crunches',fase,fm),buatEx('stretching',1,1)]
+      :[buatEx(pPU,fase,fm*gmP),buatEx(pPL,fase,fm),buatEx('crunches',fase,fm),buatEx('mountainclimber',fase,fm),buatEx('stretching',1,1)];
+    catatan='Latihan Tubuh Atas & Inti — dada, bahu, perut. Kencangkan inti di setiap gerakan.';
+  }else{
+    latihan=[buatEx(pSQ,fase,fm),buatEx(pPU,fase,fm*gmP),buatEx(pPL,fase,fm),buatEx('glutebridge',fase,fm),buatEx(pKD,fase,fm),buatEx('stretching',1,1)];
+    catatan='Latihan Seluruh Tubuh — kombinasi kekuatan dan kardio. Istirahat cukup antar set.';
+  }
+  return{tipe:['bawah','atas','total'][pt],latihan,catatan,recovery:recoveryMode};
+}
+
+function buatEx(id,fase,m){
+  const tbl={
+    squat:        [{s:2,r:8, d:0,rst:75},{s:3,r:10,d:0,rst:65},{s:3,r:13,d:0,rst:55},{s:4,r:16,d:0,rst:45}],
+    squat_kursi:  [{s:2,r:6, d:0,rst:80},{s:2,r:8, d:0,rst:75},{s:3,r:10,d:0,rst:65},{s:3,r:12,d:0,rst:60}],
+    lunges:       [{s:2,r:8, d:0,rst:75},{s:2,r:10,d:0,rst:70},{s:3,r:12,d:0,rst:60},{s:3,r:14,d:0,rst:50}],
+    plank:        [{s:2,r:0,d:20,rst:80},{s:3,r:0,d:30,rst:70},{s:3,r:0,d:40,rst:60},{s:4,r:0,d:55,rst:50}],
+    plank_lutut:  [{s:2,r:0,d:15,rst:80},{s:2,r:0,d:25,rst:75},{s:3,r:0,d:30,rst:65},{s:3,r:0,d:40,rst:55}],
+    wallsit:      [{s:2,r:0,d:20,rst:80},{s:3,r:0,d:30,rst:70},{s:3,r:0,d:40,rst:60},{s:3,r:0,d:50,rst:55}],
+    pushup:       [{s:2,r:6, d:0,rst:80},{s:3,r:8, d:0,rst:75},{s:3,r:10,d:0,rst:65},{s:4,r:13,d:0,rst:55}],
+    pushup_lutut: [{s:2,r:6, d:0,rst:80},{s:2,r:8, d:0,rst:75},{s:3,r:10,d:0,rst:65},{s:3,r:12,d:0,rst:55}],
+    glutebridge:  [{s:2,r:10,d:0,rst:70},{s:3,r:12,d:0,rst:65},{s:3,r:14,d:0,rst:55},{s:4,r:17,d:0,rst:45}],
+    mountainclimber:[{s:2,r:0,d:15,rst:70},{s:3,r:0,d:20,rst:65},{s:3,r:0,d:28,rst:55},{s:4,r:0,d:38,rst:45}],
+    jumpingjack:  [{s:2,r:0,d:20,rst:60},{s:3,r:0,d:30,rst:55},{s:3,r:0,d:38,rst:50},{s:4,r:0,d:50,rst:40}],
+    crunches:     [{s:2,r:10,d:0,rst:70},{s:3,r:12,d:0,rst:65},{s:3,r:14,d:0,rst:55},{s:4,r:17,d:0,rst:45}],
+    highknees:    [{s:2,r:0,d:20,rst:60},{s:3,r:0,d:28,rst:55},{s:3,r:0,d:35,rst:50},{s:4,r:0,d:45,rst:42}],
+    jalan_cepat:  [{s:1,r:0,d:120,rst:0},{s:1,r:0,d:150,rst:0},{s:2,r:0,d:120,rst:60},{s:2,r:0,d:150,rst:60}],
+    stretching:   [{s:1,r:0,d:180,rst:0},{s:1,r:0,d:210,rst:0},{s:1,r:0,d:240,rst:0},{s:1,r:0,d:300,rst:0}],
+  };
+  const fi=Math.min(fase-1,3);
+  const pd=tbl[id]?tbl[id][fi]:{s:2,r:8,d:0,rst:70};
+  const db=LAT[id];
+  const kat=katUsia(U?.umur||30);
+  return{
+    id,nama:db.nama,
+    set:Math.max(1,Math.round(pd.s*m)),
+    rep:pd.r>0?Math.max(1,Math.round(pd.r*m)):0,
+    dur:pd.d>0?Math.max(5,Math.round(pd.d*m)):0,
+    rest:pd.rst,isTimed:pd.d>0,
+    showML:!!(db.ml&&kat==='lansia'),
+    showMW:!!(db.mw&&U?.gender==='wanita'),
+  };
+}
+
+// ══════════════════════════════════
+// FORM
+// ══════════════════════════════════
+const KET_TUJUAN={
+  cutting:'<strong>Turun Berat Badan:</strong> Defisit kalori terkontrol. Berat dapat turun 0,5–1 kg/minggu sambil menjaga massa otot. Protein tinggi agar otot tidak ikut menyusut.',
+  maintain:'<strong>Pertahankan Berat:</strong> Kalori seimbang dengan pengeluaran energi. Latihan membantu menjaga komposisi tubuh. Stabil adalah keberhasilan.',
+  bulking:'<strong>Naik Massa Otot (Bulking):</strong> Surplus kalori kecil (+300 kkal) disertai protein tinggi dan latihan kekuatan. Naik pelan (0,2–0,5 kg/minggu) adalah tanda yang baik. <em>Beda dari naik berat biasa</em>: fokus pada otot, bukan sekadar berat.',
+  gain:'<strong>Naik Berat Badan:</strong> Surplus kalori lebih besar (+500 kkal). Tidak berfokus pada otot — cocok untuk yang perlu tambah berat secara umum. Berbeda dari bulking yang mensyaratkan latihan kekuatan intensif.',
+};
+
+function tampilKetTujuan(t){
+  const el=document.getElementById('ket-tujuan');
+  el.innerHTML=KET_TUJUAN[t]||'';
+  el.classList.add('tampil');
+  periksaForm();
+}
+
+function periksaForm(){
+  const bb=parseFloat(document.getElementById('f-bb').value);
+  const tg=parseFloat(document.getElementById('f-tg').value);
+  const tb=parseFloat(document.getElementById('f-tb').value);
+  const um=parseInt(document.getElementById('f-um').value);
+  const gdr=document.querySelector('input[name="gdr"]:checked')?.value||'pria';
+  const akt=document.querySelector('input[name="akt"]:checked')?.value||'ringan';
+  const tuj=document.querySelector('input[name="tuj"]:checked')?.value||'cutting';
+
+  const ea=document.getElementById('f-alert');
+  const ew=document.getElementById('f-warn');
+  const epv=document.getElementById('f-pv');
+  const esub=document.getElementById('f-submit');
+  ea.classList.remove('tampil');ew.classList.remove('tampil');epv.classList.remove('tampil');
+  esub.disabled=false;
+
+  if(!bb||!tg||!tb||!um)return;
+  const sel=Math.abs(bb-tg);
+  if(sel>20){ea.classList.add('tampil');esub.disabled=true;return;}
+  if(sel>10){ew.textContent=`Perhatian: selisih berat ${sel.toFixed(1)} kg cukup besar. Penurunan sehat adalah 0,5–1 kg/minggu (maksimal ±9 kg dalam 90 hari). Program tetap aman, namun pertimbangkan target yang lebih bertahap.`;ew.classList.add('tampil');}
+
+  if(tb>=100&&um>=12){
+    const bmi=bb/Math.pow(tb/100,2);
+    const ideal=(gdr==='pria'?22.5:21.5)*Math.pow(tb/100,2);
+    let kat='';
+    if(bmi<17.5)kat='Sangat Kurus';else if(bmi<18.5)kat='Kurus';
+    else if(bmi<23)kat='Normal';else if(bmi<25)kat='Sedikit Berlebih';
+    else if(bmi<27.5)kat='Kelebihan Berat';else if(bmi<30)kat='Obesitas I';else kat='Obesitas II/III';
+    const nu=hitungN({bb,tb,umur:um,gender:gdr,aktivitas:akt,tujuan:tuj,mode:'normal'});
+    document.getElementById('p-bmi').textContent=bmi.toFixed(1);
+    document.getElementById('p-kat').textContent=kat;
+    document.getElementById('p-idl').textContent=ideal.toFixed(1)+' kg';
+    document.getElementById('p-kal').textContent=nu.kalT+' kkal/hari';
+    epv.classList.add('tampil');
+  }
+}
+
+// ══════════════════════════════════
+// BUAT PROGRAM
+// ══════════════════════════════════
+function buatProgram(){
+  const bb=parseFloat(document.getElementById('f-bb').value);
+  const tg=parseFloat(document.getElementById('f-tg').value);
+  const tb=parseFloat(document.getElementById('f-tb').value);
+  const um=parseInt(document.getElementById('f-um').value);
+  const gdr=document.querySelector('input[name="gdr"]:checked')?.value||'pria';
+  const akt=document.querySelector('input[name="akt"]:checked')?.value||'ringan';
+  const tuj=document.querySelector('input[name="tuj"]:checked')?.value||'cutting';
+  const mod=document.querySelector('input[name="mod"]:checked')?.value||'normal';
+
+  if(!bb||!tg||!tb||!um||bb<30||tb<100||um<12){alert('Lengkapi semua data dengan benar.');return;}
+  if(Math.abs(bb-tg)>20){alert('Selisih berat dan target lebih dari 20 kg. Silakan konsultasi dokter terlebih dahulu.');return;}
+
+  U={bb,target:tg,tb,umur:um,gender:gdr,aktivitas:akt,tujuan:tuj,mode:mod};
+  N=hitungN(U);
+  sel=lsGet('ip90_sel',{});
+  rwBB=lsGet('ip90_bb',[]);
+  rwPG=lsGet('ip90_pg',[]);
+  streak=parseInt(lsGet('ip90_streak',0));
+  catatanHarian=lsGet('ip90_ch',{});
+  lsSet('ip90_u',U);lsSet('ip90_n',N);
+  renderProgram();
+  tampilLayar('lp');
+}
+
+// ══════════════════════════════════
+// RENDER PROGRAM
+// ══════════════════════════════════
+function renderProgram(){
+  document.getElementById('s-kal').textContent=N.kalT;
+  document.getElementById('s-pro').textContent=N.protein+'g';
+  document.getElementById('s-kar').textContent=N.karbo+'g';
+  document.getElementById('s-str').textContent=streak;
+  document.getElementById('today-kal').textContent=N.kalT+' kkal';
+  perbaruiFase();
+  perbaruiToday();
+  renderMinggu();
+}
+
+function perbaruiFase(){
+  const fi=getFaseInfo(mgg);
+  const el=document.getElementById('badge-fase');
+  el.textContent=fi.label;el.className='ph-fase '+fi.cls;
+  const hM=(mgg-1)*7+1,hA=Math.min(hM+6,90);
+  document.getElementById('sub-mgg').textContent=`Hari ${hM}–${hA} \u2022 ${fi.label}`;
+}
+
+function perbaruiToday(){
+  const tot=Object.values(sel).filter(Boolean).length;
+  const hariIni=Math.min(tot+1,90);
+  const lat=buatLatihan(hariIni,U);
+  const tipeLabel={istirahat:'Istirahat Aktif',kardio:'Latihan Kardio',
+    bawah:'Latihan Tubuh Bawah',atas:'Latihan Tubuh Atas & Inti',total:'Latihan Seluruh Tubuh'};
+  document.getElementById('today-h4').textContent=`Hari ke-${hariIni}`;
+  document.getElementById('today-p').textContent=tipeLabel[lat.tipe]||lat.tipe;
+
+  // Reminder jika hari ini belum selesai dan sudah lewat hari 1
+  const hariSudahSelesai=sel['h'+hariIni];
+  const rem=document.getElementById('reminder-bar');
+  if(!hariSudahSelesai&&tot>0){rem.classList.add('tampil');}
+  else{rem.classList.remove('tampil');}
+}
+
+// ══════════════════════════════════
+// RENDER MINGGU
+// ══════════════════════════════════
+function renderMinggu(){
+  const hM=(mgg-1)*7+1,hA=Math.min(hM+6,90);
+  document.getElementById('jdl-mgg').textContent=`Minggu ${mgg}`;
+  document.getElementById('btn-prev').disabled=mgg===1;
+  document.getElementById('btn-next').disabled=mgg===13;
+  perbaruiFase();
+
+  const tot=Object.values(sel).filter(Boolean).length;
+  const pct=Math.round(tot/90*100);
+  document.getElementById('pct-p').textContent=pct+'%';
+  document.getElementById('pbfill').style.width=pct+'%';
+
+  const totSelesai=tot;
+  const hariIniGlobal=Math.min(totSelesai+1,90);
+
+  const list=document.getElementById('hari-list');
+  list.innerHTML='';
+
+  for(let d=hM;d<=hA;d++){
+    const k='h'+d;
+    const done=sel[k]===true;
+    const hm=(d-1)%7;
+    const lat=buatLatihan(d,U);
+    const menu=buatMenu(d,U,N);
+    const isHariIni=d===hariIniGlobal;
+    const isTerlewat=d<hariIniGlobal&&!done;
+
+    let lblH='';
+    if(lat.tipe==='istirahat')lblH='<span class="lbl li">Istirahat</span>';
+    else if(lat.tipe==='kardio')lblH='<span class="lbl lk">Kardio</span>';
+    else lblH='<span class="lbl ll">Latihan</span>';
+    if(isHariIni)lblH+='<span class="lbl lhari">Hari Ini</span>';
+    if(isTerlewat)lblH+='<span class="lbl lterlewat">Terlewat</span>';
+
+    let cls='hk';
+    if(done)cls+=' selesai';
+    if(isHariIni&&!done)cls+=' hari-ini';
+    if(isTerlewat)cls+=' terlewat';
+
+    const kartu=document.createElement('div');
+    kartu.className=cls;
+    kartu.innerHTML=`
+      <div class="hh" onclick="togH('${k}')">
+        <div class="ct${done?' v':''}" onclick="event.stopPropagation();tandaiH('${k}')">${done?'&#x2713;':''}</div>
+        <div class="h-nom">${d}</div>
+        <div class="h-nam">Hari ke-${d}</div>
+        <div class="h-lbl">${lblH}</div>
+        <div class="harr" id="arr-${k}">&#x25BC;</div>
+      </div>
+      <div class="hi" id="hi-${k}">
+        ${lat.tipe==='istirahat'?`<p style="color:var(--redup);font-size:.83rem;padding:.4rem 0;line-height:1.6">${lat.catatan}</p>`:''}
+        ${lat.recovery?`<div style="background:rgba(87,200,255,.07);border:1px solid rgba(87,200,255,.18);border-radius:7px;padding:.55rem .75rem;margin-bottom:.6rem;font-size:.82rem;color:var(--aksen2);">Kita mulai ringan dulu hari ini — tubuhmu butuh pemulihan. Lakukan semampumu.</div>`:''}
+        ${lat.tipe!=='istirahat'?renderWarmup():''}
+        ${renderMenu(menu,d)}
+        ${lat.tipe!=='istirahat'?renderLatihan(lat,d):''}
+        ${lat.tipe!=='istirahat'?renderCooldown():''}
+        ${renderChecklist(d)}
+        ${renderFaseNote(d,lat.tipe)}
+        <div class="nn">${menu.info}</div>
+        ${done
+          ?`<div style="margin-top:.6rem;font-size:.8rem;color:var(--sukses);">${feedbackSelesai(d)}</div>`
+          :`<div style="margin-top:.6rem;font-size:.78rem;color:var(--redup);font-style:italic;">Belum mulai hari ini. Ambil 10–15 menit, langsung jalan.</div>`
+        }
+      </div>`;
+    list.appendChild(kartu);
+  }
+}
+
+function renderWarmup(){
+  return`<div class="wc-sek">
+    <div class="wc-judul">Pemanasan (5 menit sebelum latihan)</div>
+    <div class="wc-list">${WARMUP.map((w,i)=>`${i+1}. ${w}`).join('<br>')}</div>
+  </div>`;
+}
+function renderCooldown(){
+  return`<div class="wc-sek" style="border-color:rgba(167,139,250,.1);background:rgba(167,139,250,.04);">
+    <div class="wc-judul" style="color:var(--aksen4)">Pendinginan (setelah latihan)</div>
+    <div class="wc-list">${COOLDOWN.map((c,i)=>`${i+1}. ${c}`).join('<br>')}</div>
+  </div>`;
+}
+
+function renderMenu(menu,d){
+  const wmk=['pagi','siang','malam'];
+  const lbl=['Makan Pagi','Makan Siang','Makan Malam'];
+  const cls=['','sng','mlm'];
+  let html='';
+  wmk.forEach((w,wi)=>{
+    html+=`<div class="msek"><div class="mjdl ${cls[wi]}">${lbl[wi]}</div><div class="ml">`;
+    menu[w].forEach((item,idx)=>{
+      if(item.note){html+=`<div class="mi"><span class="mnote">${item.nama}</span></div>`;return;}
+      const sg=lsGet(`g_${d}_${w}_${idx}`,null);
+      const nm=sg?sg.nama:item.nama,lb=sg?sg.lbl:item.lbl;
+      const gb=item.ganti?`<button class="bgnt" onclick="bukaGanti(${d},'${w}',${idx},'${item.tipe}')">ganti</button>`:'';
+      html+=`<div class="mi"><span class="mn">${nm}</span><span class="mj">${lb}</span>${gb}</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  return html;
+}
+
+function renderLatihan(lat,d){
+  let html=`<div class="lsek"><div class="ljdl">Latihan Hari Ini</div>`;
+  if(lat.catatan)html+=`<div style="font-size:.77rem;color:var(--redup);margin-bottom:.55rem;padding:.38rem .6rem;background:var(--bg3);border-radius:5px;line-height:1.5;">${lat.catatan}</div>`;
+  html+=`<div class="llist">`;
+  lat.latihan.forEach((ex,idx)=>{
+    const kd=`d_${d}_${idx}`;
+    const db=LAT[ex.id];
+    const meta=ex.isTimed
+      ?`${ex.set} set &middot; ${ex.dur} detik &middot; istirahat ${ex.rest} dtk`
+      :`${ex.set} set &middot; ${ex.rep} repetisi &middot; istirahat ${ex.rest} dtk`;
+    const ts=ex.isTimed?ex.dur:Math.round(ex.rep*2.5);
+    html+=`<div class="litm">
+      <div class="lih" onclick="togDet('${kd}')">
+        <div><div class="lnm">${ex.nama}</div><div class="lmeta">${meta}</div></div>
+        <div class="laksi">
+          <button class="btmr" data-id="${ex.id}" data-set="${ex.set}" data-sec="${ts}" data-rest="${ex.rest}" data-nama="${ex.nama.replace(/"/g,'')}" data-rep="${ex.rep}" onclick="event.stopPropagation();timerDariBtn(this)">Timer</button>
+          <button class="bdet" onclick="event.stopPropagation();togDet('${kd}')">Detail</button>
+        </div>
+      </div>
+      <div class="ld" id="${kd}">
+        <div class="det-blok">
+          <div class="det-blok-judul">Info Cepat</div>
+          <div class="det-info-cepat">
+            <div class="dic-item"><div class="dic-val">${ex.set}</div><div class="dic-lbl">Set</div></div>
+            <div class="dic-item"><div class="dic-val">${ex.isTimed?ex.dur+'dtk':ex.rep+' rep'}</div><div class="dic-lbl">${ex.isTimed?'Durasi':'Repetisi'}</div></div>
+            <div class="dic-item"><div class="dic-val">${ex.rest}dtk</div><div class="dic-lbl">Istirahat</div></div>
+          </div>
+        </div>
+        <div class="det-blok">
+          <div class="det-blok-judul">Cara Melakukan</div>
+          <div class="det-langkah">${db.langkah.map((l,i)=>`<div class="det-lk"><span class="det-lkno">${i+1}.</span><span>${l}</span></div>`).join('')}</div>
+        </div>
+        <div class="det-blok">
+          <div class="det-blok-judul">Detail Teknis</div>
+          <div class="det-teknis">
+            <div class="det-tek-item">Tempo: <span>${db.tempo}</span></div>
+            <div class="det-tek-item">Alat: <span>${db.alat}</span></div>
+          </div>
+        </div>
+        <div class="det-blok">
+          <div class="det-blok-judul">Kesalahan Umum</div>
+          <div class="det-salah">${db.salah}</div>
+        </div>
+        <div class="det-blok">
+          <div class="det-blok-judul">Otot yang Dilatih</div>
+          <div class="det-otot">${db.otot}</div>
+        </div>
+        ${ex.showML?`<div class="det-modif">Modifikasi usia 60+: ${db.ml}</div>`:''}
+        ${ex.showMW&&db.mw?`<div class="det-modif">Tips untuk perempuan: ${db.mw}</div>`:''}
+      </div>
+    </div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+
+function renderChecklist(d){
+  const ckKey=`ck_${d}`;
+  const ckData=lsGet(ckKey,{air:false,makan:false,tidur:false,lat:false});
+  const items=[
+    {k:'lat',t:'Latihan selesai hari ini'},
+    {k:'makan',t:'Mengikuti rencana makan hari ini'},
+    {k:'air',t:'Minum air cukup (sesuai target)'},
+    {k:'tidur',t:'Tidur cukup semalam (7–8 jam)'},
+  ];
+  let html=`<div class="checklist-sek"><div class="checklist-judul">Checklist Harian</div><div class="cklist">`;
+  items.forEach(it=>{
+    const v=ckData[it.k];
+    html+=`<div class="ck-item" onclick="toggleCk(${d},'${it.k}')">
+      <div class="ck-box${v?' v':''}"></div>
+      <span class="ck-teks${v?' v':''}">${it.t}</span>
+    </div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+
+function toggleCk(d,k){
+  const ckKey=`ck_${d}`;
+  const data=lsGet(ckKey,{air:false,makan:false,tidur:false,lat:false});
+  data[k]=!data[k];
+  lsSet(ckKey,data);
+  renderMinggu();
+}
+
+function renderFaseNote(d,tipe){
+  const f=getFase(d);
+  const kat=katUsia(U.umur);
+  const notes={
+    1:{istirahat:'Tubuhmu sedang beradaptasi — istirahat sama pentingnya dengan latihan.',bawah:'Fase adaptasi: utamakan teknik yang benar, bukan jumlah. Form dulu, beban nanti.',atas:'Fase adaptasi: rasakan otot yang aktif di setiap gerakan.',kardio:'Kardio ringan cukup. Tidak perlu sampai kelelahan, cukup hangat dan sedikit berkeringat.',total:'Gerakan ringan untuk mengaktifkan semua otot. Dengarkan tubuhmu.'},
+    2:{istirahat:'Pemulihan membantu otot tumbuh. Tidur 7–8 jam malam ini.',bawah:'Fase kontrol: perlambat tempo turun (4 dtk) untuk intensitas lebih.',atas:'Fase kontrol: rasakan setiap kontraksi. Push-up lambat lebih menantang.',kardio:'Pertahankan kardio 20–30 menit. Targetkan napas terengah tapi masih bisa berbicara.',total:'Mulai bangun koneksi antara pikiran dan otot.'},
+    3:{istirahat:'Fase progres butuh pemulihan penuh. Manfaatkan hari ini.',bawah:'Fase progres: jika sudah mudah, tambah 2 rep per set. Progresif adalah kuncinya.',atas:'Fase progres: variasikan push-up — coba tangan lebih rapat untuk intensitas berbeda.',kardio:'Tambahkan interval: 30 dtk lebih keras, 30 dtk santai, ulangi 5–8x.',total:'Full body di fase ini membangun ketahanan dan kekuatan secara bersamaan.'},
+    4:{istirahat:'Fase intens butuh pemulihan sempurna. Tidur 8 jam dan minum cukup air.',bawah:'Fase puncak: berikan usaha terbaikmu di setiap set.',atas:'Fase puncak: coba push-up dengan kaki di kursi untuk beban lebih.',kardio:'Kardio interval penuh: 20 dtk maksimal / 40 dtk jalan, 10 putaran.',total:'Ini yang membedakan hasil biasa dan luar biasa — kerahkan usaha penuh.'},
+  };
+  let txt=notes[f]?.[tipe]||'Lakukan dengan teknik yang benar dan konsisten.';
+  let cUsia='';
+  if(kat==='lansia')cUsia='<br><small style="color:var(--sukses)">Usia 60+: program telah disesuaikan lebih aman untuk sendi. Berhenti jika terasa nyeri — bukan rasa lelah biasa.</small>';
+  else if(kat==='pra-lansia')cUsia='<br><small style="color:var(--aksen2)">Usia 50–59: pemanasan 5 menit sebelum latihan sangat penting untuk mencegah cedera.</small>';
+  return`<div class="fn"><div class="fn-j">Panduan ${getFaseInfo(mgg).label}</div><div class="fn-i">${txt}${cUsia}</div></div>`;
+}
+
+// ══════════════════════════════════
+// INTERAKSI HARI
+// ══════════════════════════════════
+function togH(k){const i=document.getElementById('hi-'+k),a=document.getElementById('arr-'+k);if(!i)return;i.classList.toggle('o');a.classList.toggle('o');}
+function togDet(k){document.getElementById(k)?.classList.toggle('o');}
+function tandaiH(k){
+  sel[k]=!sel[k];
+  lsSet('ip90_sel',sel);
+  hitungStreak();
+  const tabAktif=lsGet('ip90_tab','jadwal'); // I: baca tab aktif sebelum render
+  renderMinggu();
+  perbaruiToday();
+  document.getElementById('s-str').textContent=streak;
+  // I: render tab lain hanya jika aktif, jangan pindah halaman
+  if(tabAktif==='pantauan')renderPantauan();
+  if(tabAktif==='pelatih')renderPelatih();
+}
+function hitungStreak(){
+  let mx=0,cur=0;
+  for(let i=1;i<=90;i++){if(sel['h'+i]){cur++;mx=Math.max(mx,cur);}else cur=0;}
+  streak=mx;lsSet('ip90_streak',streak);
+}
+function gantiMinggu(d){mgg=Math.max(1,Math.min(13,mgg+d));renderMinggu();}
+
+// ══════════════════════════════════
+// TIMER
+// ══════════════════════════════════
+function timerDariBtn(b){bukaTimer(b.dataset.id,+b.dataset.set,+b.dataset.sec,+b.dataset.rest,b.dataset.nama,+b.dataset.rep);}
+function bukaTimer(id,set,dur,rest,nama,rep){
+  timerTS=set;timerSet=1;timerR=rest;timerTotal=dur;timerSisa=dur;timerFR=false;
+  timerEx={id,dur,rest,rep};
+  document.getElementById('tnama').textContent=nama;
+  document.getElementById('tfase').textContent='Siap';document.getElementById('tfase').style.color='var(--redup)';
+  document.getElementById('tinfo').textContent=`Set ${timerSet} dari ${timerTS}${rep>0?' \xb7 Rep: '+rep:' \xb7 Durasi: '+dur+' dtk'}`;
+  document.getElementById('tbm').style.display='';document.getElementById('tbj').style.display='none';
+  updTimer();bukaModal('mo-timer');
+}
+function mulaiTimer(){
+  if(timerIv)clearInterval(timerIv);
+  document.getElementById('tbm').style.display='none';document.getElementById('tbj').style.display='';
+  document.getElementById('tfase').textContent=timerFR?'Istirahat':'Kerja';
+  document.getElementById('tfase').style.color=timerFR?'var(--aksen2)':'var(--aksen)';
+  timerIv=setInterval(()=>{
+    timerSisa--;updTimer();
+    if(timerSisa<=0){
+      clearInterval(timerIv);timerIv=null;
+      if(!timerFR&&timerSet<timerTS){
+        timerFR=true;timerSisa=timerR;timerTotal=timerR;
+        document.getElementById('tfase').textContent='Istirahat';
+        document.getElementById('tfase').style.color='var(--aksen2)';
+        mulaiTimer();
+      }else if(timerFR){
+        timerSet++;timerFR=false;timerSisa=timerEx.dur;timerTotal=timerEx.dur;
+        document.getElementById('tinfo').textContent=`Set ${timerSet} dari ${timerTS}${timerEx.rep>0?' \xb7 Rep: '+timerEx.rep:' \xb7 Durasi: '+timerEx.dur+' dtk'}`;
+        document.getElementById('tfase').textContent='Kerja';document.getElementById('tfase').style.color='var(--aksen)';
+        mulaiTimer();
+      }else{
+        document.getElementById('twkt').textContent='Selesai';
+        document.getElementById('tfase').textContent='Semua set tuntas!';
+        document.getElementById('tfase').style.color='var(--sukses)';
+        document.getElementById('tbj').style.display='none';document.getElementById('tbm').style.display='';
+      }
+    }
+  },1000);
+}
+function jedaTimer(){if(timerIv){clearInterval(timerIv);timerIv=null;}document.getElementById('tbj').style.display='none';document.getElementById('tbm').style.display='';}
+function ulangTimer(){
+  jedaTimer();timerSet=1;timerFR=false;
+  timerSisa=timerEx?timerEx.dur:30;timerTotal=timerSisa;
+  document.getElementById('tfase').textContent='Siap';document.getElementById('tfase').style.color='var(--redup)';
+  document.getElementById('tinfo').textContent=`Set 1 dari ${timerTS}`;updTimer();
+}
+function updTimer(){
+  const m=String(Math.floor(timerSisa/60)).padStart(2,'0'),s=String(timerSisa%60).padStart(2,'0');
+  document.getElementById('twkt').textContent=`${m}:${s}`;
+  const p=timerTotal>0?((timerTotal-timerSisa)/timerTotal*100):0;
+  document.getElementById('tcirc').style.setProperty('--p',p+'%');
+}
+
+// ══════════════════════════════════
+// PANTAUAN
+// ══════════════════════════════════
+function renderPantauan(){
+  hitungStreak();
+  document.getElementById('t-streak').textContent=streak;
+  document.getElementById('s-str').textContent=streak;
+
+  // Riwayat BB
+  const rl=document.getElementById('riwayat-bb');
+  rl.innerHTML=rwBB.length?rwBB.slice(-10).reverse().map(e=>`<div class="ri"><span>${e.tgl}</span><span>${e.bb} kg</span></div>`).join('')
+    :'<div style="color:var(--redup);font-size:.77rem;padding:.3rem 0">Belum ada data. Mulai hari ini.</div>';
+
+  // Riwayat pinggang
+  const rp=document.getElementById('riwayat-pinggang');
+  rp.innerHTML=rwPG.length?rwPG.slice(-5).reverse().map(e=>`<div class="ri"><span>${e.tgl}</span><span>${e.pg} cm</span></div>`).join('')
+    :'<div style="color:var(--redup);font-size:.77rem;padding:.3rem 0">Belum ada data.</div>';
+
+  // Air & energi hari ini
+  const hKey=new Date().toISOString().slice(0,10);
+  const hd=catatanHarian[hKey]||{air:0,energi:0,nyeri:''};
+  document.getElementById('air-count').textContent=hd.air||0;
+  document.getElementById('air-target').textContent=`Target: ${Math.round(U.bb*33/250)} gelas`;
+
+  // Energi buttons
+  const ebtns=document.querySelectorAll('.ebtn');
+  ebtns.forEach((b,i)=>{b.classList.toggle('aktif',(i+1)===(hd.energi||0));});
+  document.getElementById('nyeri-input').value=hd.nyeri||'';
+
+  // Ringkasan
+  const tot=Object.values(sel).filter(Boolean).length;
+  const pct=Math.round(tot/90*100);
+  const first=rwBB[0]?.bb||U.bb;
+  const last=rwBB[rwBB.length-1]?.bb;
+  const selBB=last?(last-first).toFixed(1):'–';
+  const sisaTgt=last?(last-U.target).toFixed(1):(U.bb-U.target).toFixed(1);
+  document.getElementById('ringkasan').innerHTML=`
+    <div>Hari selesai: <strong style="color:var(--aksen)">${tot} / 90</strong></div>
+    <div>Progres: <strong style="color:var(--aksen)">${pct}%</strong></div>
+    <div>Berat awal: <strong style="color:var(--aksen2)">${U.bb} kg</strong></div>
+    <div>Target: <strong style="color:var(--aksen3)">${U.target} kg</strong></div>
+    <div>Sisa menuju target: <strong style="color:var(--sukses)">${sisaTgt} kg</strong></div>
+    <div>Perubahan BB: <strong style="color:var(--sukses)">${selBB!=='–'?(parseFloat(selBB)>0?'+':'')+selBB+' kg':'–'}</strong></div>
+    <div>Kalori harian: <strong style="color:var(--aksen)">${N.kalT} kkal</strong></div>`;
+
+  renderGrafik();
+  renderInsight();
+  renderMisi();
+}
+
+function tambahBB(){
+  const v=parseFloat(document.getElementById('bb-input').value);
+  if(!v||v<20||v>300){alert('Masukkan berat badan yang valid.');return;}
+  const now=new Date();
+  rwBB.push({bb:v,tgl:now.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}),ts:now.getTime()});
+  lsSet('ip90_bb',rwBB);
+  document.getElementById('bb-input').value='';
+  renderPantauan();
+  if(document.getElementById('tab-pelatih').classList.contains('a'))renderPelatih();
+}
+
+function tambahPinggang(){
+  const v=parseFloat(document.getElementById('pinggang-input').value);
+  if(!v||v<30||v>200){alert('Masukkan lingkar pinggang yang valid.');return;}
+  const now=new Date();
+  rwPG.push({pg:v,tgl:now.toLocaleDateString('id-ID',{day:'2-digit',month:'short'}),ts:now.getTime()});
+  lsSet('ip90_pg',rwPG);
+  document.getElementById('pinggang-input').value='';
+  renderPantauan();
+}
+
+function ubahAir(d){
+  const hKey=new Date().toISOString().slice(0,10);
+  if(!catatanHarian[hKey])catatanHarian[hKey]={air:0,energi:0,nyeri:''};
+  catatanHarian[hKey].air=Math.max(0,Math.min(20,(catatanHarian[hKey].air||0)+d));
+  lsSet('ip90_ch',catatanHarian);
+  document.getElementById('air-count').textContent=catatanHarian[hKey].air;
+}
+
+function setEnergi(v){
+  const hKey=new Date().toISOString().slice(0,10);
+  if(!catatanHarian[hKey])catatanHarian[hKey]={air:0,energi:0,nyeri:''};
+  catatanHarian[hKey].energi=v;
+  lsSet('ip90_ch',catatanHarian);
+  const ebtns=document.querySelectorAll('.ebtn');
+  ebtns.forEach((b,i)=>b.classList.toggle('aktif',(i+1)===v));
+}
+
+function simpanHarian(){
+  const hKey=new Date().toISOString().slice(0,10);
+  if(!catatanHarian[hKey])catatanHarian[hKey]={air:0,energi:0,nyeri:''};
+  catatanHarian[hKey].nyeri=document.getElementById('nyeri-input').value.trim();
+  lsSet('ip90_ch',catatanHarian);
+  const btn=document.querySelector('.simpan-harian');
+  btn.textContent='Tersimpan!';setTimeout(()=>{btn.textContent='Simpan Catatan Hari Ini';},1500);
+}
+
+function renderGrafik(){
+  const ctx=document.getElementById('grafik');if(!ctx)return;
+  if(grafik)grafik.destroy();
+  const lbl=rwBB.map(e=>e.tgl),data=rwBB.map(e=>e.bb),tgt=lbl.map(()=>U.target);
+  grafik=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:lbl.length?lbl:['Mulai'],
+      datasets:[
+        {label:'Berat Badan (kg)',data:data.length?data:[U.bb],borderColor:'#c8ff57',backgroundColor:'rgba(200,255,87,.07)',pointBackgroundColor:'#c8ff57',tension:.4,fill:true,borderWidth:2},
+        {label:'Target (kg)',data:lbl.length?tgt:[U.target],borderColor:'#ff7043',borderDash:[5,5],pointRadius:0,borderWidth:1.5,fill:false},
+      ],
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{labels:{color:'#6b7080',font:{family:'Plus Jakarta Sans'},boxWidth:12}},
+        tooltip:{backgroundColor:'#1e2028',titleColor:'#eef0f8',bodyColor:'#6b7080'},
+      },
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#6b7080',font:{family:'Plus Jakarta Sans',size:11}}},
+        y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#6b7080',font:{family:'Plus Jakarta Sans',size:11}}},
+      },
+    },
+  });
+}
+
+// ══════════════════════════════════
+// INSIGHT PROGRES
+// ══════════════════════════════════
+function renderInsight(){
+  const el=document.getElementById('insight-list');
+  if(!el)return;
+  const insights=[];
+  const tot=Object.values(sel).filter(Boolean).length;
+  const energi=energiHariIni();
+  const pmgg=progressMingguan(); // A: per minggu
+
+  if(rwBB.length>=2){
+    const deltaTotal=rwBB[rwBB.length-1].bb-rwBB[0].bb;
+    const mggJalan=Math.max(1,tot/7);
+
+    if(U.tujuan==='cutting'){
+      if(deltaTotal<0){
+        // D: cek kecepatan per minggu — bukan hanya total
+        if(Math.abs(pmgg)>1.2){
+          insights.push({cls:'warn',txt:`Berat turun ${Math.abs(deltaTotal).toFixed(1)} kg (${Math.abs(pmgg).toFixed(2)} kg/minggu) — laju terlalu cepat. Pastikan protein ${N.protein}g/hari terpenuhi agar otot tidak ikut berkurang.`});
+        }else{
+          insights.push({cls:'baik',txt:`Berat turun ${Math.abs(deltaTotal).toFixed(1)} kg dalam ${Math.round(mggJalan)} minggu (${Math.abs(pmgg).toFixed(2)} kg/minggu) — laju penurunan dalam batas sehat.`});
+        }
+      }else if(Math.abs(deltaTotal)<0.3&&tot>=14){
+        // D: stagnan + energi rendah → saran spesifik
+        const saran=energi>0&&energi<=2
+          ?'Energi kamu juga rendah — cek kualitas tidur dan pastikan makan tidak terlewat.'
+          :'Pertimbangkan kurangi kalori 100–150 kkal atau tambahkan kardio 15 menit.';
+        insights.push({cls:'warn',txt:`Berat stagnan ${Math.round(mggJalan)} minggu. ${saran}`});
+      }else if(deltaTotal>0.5&&tot>7){
+        insights.push({cls:'warn',txt:`Berat naik ${deltaTotal.toFixed(1)} kg padahal tujuan cutting. Total kalori kemungkinan melebihi target — tinjau porsi dan camilan di luar jadwal.`});
+      }
+    }else if(U.tujuan==='bulking'){
+      if(deltaTotal>0){
+        // D: bulking naik cepat → warning lemak
+        if(pmgg>1.0){
+          insights.push({cls:'warn',txt:`Berat naik ${pmgg.toFixed(2)} kg/minggu — terlalu cepat untuk bulking bersih. Target ideal 0,2–0,5 kg/minggu. Kurangi surplus kalori agar kenaikan lebih bersih.`});
+        }else{
+          insights.push({cls:'baik',txt:`Berat naik ${deltaTotal.toFixed(1)} kg dalam ${Math.round(mggJalan)} minggu — laju mendukung pertambahan massa otot.`});
+        }
+      }else if(deltaTotal<0&&tot>7){
+        insights.push({cls:'warn',txt:'Berat turun saat program bulking. Kalori kemungkinan masih kurang. Tambahkan porsi karbo di siang dan malam.'});
+      }
+    }else if(U.tujuan==='gain'){
+      if(deltaTotal>0){
+        insights.push({cls:'baik',txt:`Berat naik ${deltaTotal.toFixed(1)} kg dalam ${Math.round(mggJalan)} minggu — sesuai tujuan.`});
+      }else if(tot>=7){
+        insights.push({cls:'warn',txt:`Berat belum naik setelah ${Math.round(mggJalan)} minggu. Pastikan makan malam dan total kalori harian benar-benar terpenuhi.`});
+      }
+    }else{
+      // maintain
+      if(Math.abs(deltaTotal)<1.0){
+        insights.push({cls:'baik',txt:`Berat stabil — selisih hanya ${deltaTotal.toFixed(1)} kg. Sesuai tujuan maintain.`});
+      }else{
+        insights.push({cls:'info',txt:`Berat bergeser ${deltaTotal.toFixed(1)} kg. Pantau tren per minggu, bukan per hari.`});
+      }
+    }
+  }
+
+  // D: energi rendah tanpa konteks BB → tetap informatif
+  if(energi>0&&energi<=2&&rwBB.length<2){
+    insights.push({cls:'info',txt:`Energi hari ini rendah (${energi}/5). Latihan tetap dilakukan tapi tidak perlu dipaksakan intensitas penuh.`});
+  }
+
+  // Konsistensi
+  if(tot>=7){
+    const pct=Math.round(tot/90*100);
+    if(pct>=80)insights.push({cls:'baik',txt:`Konsistensi latihan ${pct}% dari 90 hari — sangat baik.`});
+    else if(pct>=50)insights.push({cls:'info',txt:`Konsistensi latihan ${pct}%. Isi hari terlewat dengan latihan singkat jika bisa.`});
+    else insights.push({cls:'warn',txt:`Konsistensi ${pct}%. Latihan 20 menit tetap lebih baik dari tidak sama sekali.`});
+  }
+
+  if(streak>=7)insights.push({cls:'baik',txt:`Streak ${streak} hari beruntun. Kebiasaan positif sedang terbentuk.`});
+
+  if(rwPG.length>=2){
+    const dp=rwPG[rwPG.length-1].pg-rwPG[0].pg;
+    if(U.tujuan==='cutting'&&dp<0)insights.push({cls:'baik',txt:`Lingkar pinggang berkurang ${Math.abs(dp).toFixed(1)} cm — indikasi lemak perut berkurang.`});
+    else if(U.tujuan==='cutting'&&dp>0.5)insights.push({cls:'warn',txt:`Lingkar pinggang bertambah ${dp.toFixed(1)} cm saat cutting. Tinjau pola makan malam.`});
+  }
+
+  if(insights.length===0){
+    el.innerHTML='<div class="insight-kosong">Belum ada data cukup. Catat berat badan secara rutin untuk mendapatkan insight yang akurat.</div>';
+    return;
+  }
+  el.innerHTML=insights.map(ins=>`<div class="insight-item ${ins.cls}">${ins.txt}</div>`).join('');
+}
+
+function renderMisi(){
+  const tot=Object.values(sel).filter(Boolean).length;
+  const f=getFase(Math.min(tot+1,90));
+  const kat=katUsia(U.umur);
+  const misiSet={
+    1:['Selesaikan latihan hari ini — minimal 80% dari yang dijadwalkan','Minum air putih 2 liter (8 gelas) sepanjang hari','Hindari minuman manis dan gorengan hari ini','Tidur sebelum pukul 23.00 untuk pemulihan optimal'],
+    2:['Tambahkan 1–2 rep di gerakan yang sudah terasa mudah','Kurangi porsi karbohidrat malam sedikit dari biasanya','Jalan kaki 10 menit setelah makan siang','Timbang berat badan pagi hari, catat di tab Pantauan'],
+    3:['Coba variasi gerakan — squat lebih lambat atau push-up tangan rapat','Perbanyak sayuran di setiap waktu makan','Tambahkan 10 menit kardio ringan setelah sesi utama','Foto progres untuk motivasi jangka panjang'],
+    4:['Kerahkan usaha maksimal di setiap set','Konsumsi protein dalam 30 menit setelah latihan','Kardio interval: 20 dtk usaha keras, 40 dtk santai, 10 putaran','Evaluasi 90 hari: bandingkan foto awal dan ukur pinggang'],
+  };
+  let misi=misiSet[f];
+  if(kat==='lansia')misi=['Selesaikan sesi gerakan ringan hari ini','Minum air 1.5–2 liter sepanjang hari','Jalan kaki 10–15 menit di luar rumah','Tidur cukup 7–8 jam malam ini'];
+  document.getElementById('misi-list').innerHTML=misi.map(m=>`<div class="mitem"><div class="mdot"></div>${m}</div>`).join('');
+}
+
+// ══════════════════════════════════
+// PELATIH PINTAR
+// ══════════════════════════════════
+function renderPelatih(){
+  const tot=Object.values(sel).filter(Boolean).length;
+  const hariIni=Math.min(tot+1,90);
+  const fase=getFase(hariIni);
+  const kat=katUsia(U.umur);
+  let html='';
+
+  // Analisis tren BB per tujuan
+  if(rwBB.length>=3){
+    const tiga=rwBB.slice(-3);
+    const perub=tiga[2].bb-tiga[0].bb;
+    const terakhir=rwBB[rwBB.length-1].bb;
+    const sisa=Math.abs(terakhir-U.target).toFixed(1);
+
+    if(U.tujuan==='cutting'){
+      if(perub>0.5){
+        html+=`<div class="abox"><strong>Berat Naik saat Program Turun Berat</strong><br><br>
+          Berat naik sekitar ${perub.toFixed(1)} kg dalam 3 pengukuran terakhir. Beberapa hal yang dapat dicek:<br>
+          &bull; Apakah ada makanan di luar jadwal yang tidak tercatat?<br>
+          &bull; Kurangi karbohidrat malam selama 5 hari ke depan<br>
+          &bull; Jalan kaki 20 menit sebelum sarapan dapat membantu pembakaran lebih optimal<br>
+          &bull; Konsumsi garam berlebih dapat menyebabkan retensi air (berat naik sementara)</div>`;
+      }else if(Math.abs(perub)<0.2&&tot>=10){
+        html+=`<div class="abox"><strong>Berat Stagnan</strong><br><br>
+          Tidak ada perubahan signifikan dalam 3 pengukuran terakhir. Ini umum terjadi — tubuh beradaptasi.<br><br>
+          Yang dapat dicoba:<br>
+          &bull; Kurangi kalori 100–150 kkal dari target saat ini<br>
+          &bull; Tambahkan 15 menit kardio di hari latihan kekuatan<br>
+          &bull; Ganti karbohidrat putih dengan karbohidrat kompleks (nasi merah, ubi)</div>`;
+      }else if(perub<-0.2){
+        html+=`<div class="sbox"><strong>Progres Berjalan dengan Baik</strong><br><br>
+          Berat turun sekitar ${Math.abs(perub).toFixed(1)} kg — sisa menuju target sekitar ${sisa} kg. Pertahankan pola ini.<br><br>
+          Pastikan protein harian terpenuhi (sekitar ${N.protein}g) agar massa otot tetap terjaga selama penurunan berat.</div>`;
+      }
+    }else if(U.tujuan==='bulking'){
+      if(perub>1.5){
+        html+=`<div class="abox"><strong>Laju Kenaikan Mungkin Terlalu Cepat</strong><br><br>
+          Berat naik ${perub.toFixed(1)} kg dalam 3 pengukuran. Untuk bulking bersih, laju 0,5–1 kg per bulan lebih ideal.<br>
+          Pertimbangkan mengurangi surplus kalori sekitar 100–150 kkal dan pastikan latihan kekuatan berjalan konsisten.</div>`;
+      }else if(perub>0&&perub<=1.5){
+        html+=`<div class="sbox"><strong>Laju Bulking Sesuai</strong><br><br>
+          Berat naik ${perub.toFixed(1)} kg — laju ini dapat mendukung pertambahan massa otot. Pertahankan latihan kekuatan dan asupan protein ${N.protein}g/hari.</div>`;
+      }else if(perub<=0&&tot>7){
+        html+=`<div class="abox"><strong>Berat Belum Naik</strong><br><br>
+          Untuk program bulking, kalori masih mungkin kurang dari kebutuhan. Tambahkan porsi karbohidrat di siang dan malam hari, atau tambahkan snack sehat seperti pisang dengan susu.</div>`;
+      }
+    }else if(U.tujuan==='gain'){
+      if(perub>0){
+        html+=`<div class="sbox"><strong>Berat Naik</strong><br><br>
+          Naik ${perub.toFixed(1)} kg — sesuai tujuan program. Pertahankan pola makan dan rutinitas yang sudah berjalan.</div>`;
+      }else if(tot>7){
+        html+=`<div class="abox"><strong>Berat Belum Naik</strong><br><br>
+          Sudah beberapa hari berjalan tapi berat belum meningkat. Pastikan total kalori harian benar-benar terpenuhi — termasuk makan malam dan snack jika diperlukan.</div>`;
+      }
+    }else{
+      html+=`<div class="tbox"><strong>Program Pertahankan Berat:</strong> Perubahan ${perub>0?'+':''}${perub.toFixed(1)} kg — dalam rentang normal. Fluktuasi 0,3–0,8 kg per hari adalah hal biasa karena faktor air dan makanan. Pantau tren mingguan.</div>`;
+    }
+  }else if(rwBB.length===0){
+    html+=`<div class="tbox"><strong>Mulai Catat Berat Badan</strong><br><br>
+      Pelatih Pintar belum dapat menganalisis progresmu. Buka tab <strong>Pantauan</strong>, masukkan berat badanmu hari ini, lalu klik Catat. Lakukan setiap 2–3 hari.</div>`;
+  }else{
+    html+=`<div class="tbox">Butuh minimal 3 catatan berat badan untuk analisis tren. Sudah ada ${rwBB.length} data — tambahkan ${3-rwBB.length} lagi.</div>`;
+  }
+
+  // Streak
+  if(streak>=14){html+=`<div class="sbox"><strong>Streak ${streak} Hari — Konsistensi Sangat Baik!</strong><br>Pada titik ini, kebiasaan sedang terbentuk secara perlahan. Pertahankan momentum ini.</div>`;}
+  else if(streak>=7){html+=`<div class="sbox"><strong>Streak ${streak} Hari.</strong> Target berikutnya: 14 hari. Di titik itu kebiasaan mulai terasa lebih alami.</div>`;}
+  else if(streak===0&&tot>0){html+=`<div class="abox"><strong>Streak Terputus.</strong> Satu hari bolong wajar. Mulai lagi hari ini — setiap langkah berikutnya tetap bernilai.</div>`;}
+  else if(streak>0){html+=`<div class="tbox">Streak saat ini: <strong>${streak} hari</strong>. Target berikutnya: <strong>${Math.ceil(streak/7)*7} hari</strong>.</div>`;}
+
+  // Panduan fase
+  const pandFase={
+    1:`<strong>Fase 1 — Adaptasi (Hari 1–14):</strong> Prioritas utama adalah membangun kebiasaan, bukan performa maksimal. Jika gerakan terasa berat, kurangi 20–30% dari yang dijadwalkan — teknik yang benar lebih berharga dari jumlah repetisi.`,
+    2:`<strong>Fase 2 — Kontrol (Hari 15–30):</strong> Tubuh mulai beradaptasi. Saatnya lebih konsisten pada nutrisi. Target protein ${N.protein}g setiap hari dapat membantu menjaga massa otot.`,
+    3:`<strong>Fase 3 — Progres (Hari 31–60):</strong> Tambahkan intensitas bertahap setiap minggu. Prinsip progressive overload: jika 12 rep sudah terasa mudah, tambah 2 rep atau perlambat tempo.`,
+    4:`<strong>Fase 4 — Intensif (Hari 61–90):</strong> Fase puncak. Pemulihan harus lebih serius — tidur 7–8 jam dan hidrasi optimal sangat berpengaruh pada hasil.`,
+  };
+  let cUsia='';
+  if(kat==='lansia')cUsia='<br><br><strong>Catatan usia 60+:</strong> Program telah disesuaikan untuk keamanan sendi. Jika ada nyeri (bukan rasa lelah biasa), istirahat dan konsultasikan ke dokter jika berlanjut.';
+  else if(kat==='pra-lansia')cUsia='<br><br><strong>Catatan usia 50–59:</strong> Pemanasan sebelum latihan sangat penting. Kebutuhan protein juga meningkat seiring usia.';
+  html+=`<div class="tbox">${pandFase[fase]}${cUsia}</div>`;
+
+  // Tips nutrisi
+  const tips=[
+    `Pembagian kalori: Pagi ${N.kP} kkal &bull; Siang ${N.kS} kkal &bull; Malam ${N.kM} kkal. Melewatkan sarapan sering menyebabkan makan berlebih di malam hari.`,
+    `Target protein harian: <strong>${N.protein}g</strong>. Dibagi dalam 3 waktu makan: pagi ${N.proP}g, siang ${N.proS}g, malam ${N.proM}g. Protein dapat membantu rasa kenyang lebih lama.`,
+    `Kebutuhan air: sekitar <strong>${(U.bb*0.033).toFixed(1)} liter per hari</strong>. Dehidrasi ringan saja sudah dapat menurunkan performa latihan dan sering terasa seperti rasa lapar.`,
+    `${U.tujuan==='cutting'?'Karbohidrat malam tidak harus nol — porsi kecil sudah cukup. Yang penting total kalori harian terpenuhi sesuai target defisit.':U.tujuan==='bulking'||U.tujuan==='gain'?'Jangan lewatkan makan malam berkarbohidrat. Tidur dengan cukup glikogen dapat mendukung pemulihan otot.':'Maintain: pastikan kalori harian dalam rentang ±100–150 kkal dari target '+N.kalT+' kkal.'}`,
+  ];
+  html+=`<div class="tbox"><strong>Tips Nutrisi:</strong><br>${tips[hariIni%tips.length]}</div>`;
+  document.getElementById('coach-isi').innerHTML=html;
+}
+
+// ══════════════════════════════════
+// GANTI MENU
+// ══════════════════════════════════
+function bukaGanti(hari,waktu,idx,tipe){
+  gantiCtx={hari,waktu,idx,tipe};
+  const saved=lsGet(`g_${hari}_${waktu}_${idx}`,null);
+  const menu=buatMenu(hari,U,N);
+  const item=menu[waktu][idx];
+  document.getElementById('ganti-cur').textContent=`Menu saat ini: ${saved?saved.nama:item.nama}`;
+  // E: tampilkan panduan kalori saat ganti menu
+  const panduan=document.getElementById('ganti-panduan');
+  if(panduan)panduan.style.display='block';
+  const rP={pagi:.30,siang:.40,malam:.30};
+  const rK={pagi:.45,siang:.50,malam:.38};
+  gantiPil=[];
+  if(tipe==='protein'){
+    const tP=N.protein*rP[waktu];
+    PROTEIN.forEach(p=>{
+      let lb;
+      if(p.unit==='butir'){const b=Math.max(1,Math.round(tP/p.p1));lb=`${b} butir`;}
+      else{const g=Math.round(tP*100/p.p100);lb=`${g} gram`;}
+      gantiPil.push({nama:p.v[0],lbl:lb,det:`${p.unit==='butir'?p.p1+'g':p.p100+'g'} protein per ${p.unit==='butir'?'butir':'100g'}`});
+    });
+  }else if(tipe==='karbo'){
+    const tK=N.kalT*rK[waktu];
+    KARBO.forEach(k=>{
+      let lb;
+      if(k.unit==='lbr'){const l=Math.max(1,Math.round(tK/k.k1));lb=`${l} ${k.lbl}`;}
+      else{const g=Math.round(tK/(k.k100/100));const s=k.sdm?Math.round(g/k.sdm):null;lb=s?`${g}g (sekitar ${s} ${k.lbl})`:`${g}g`;}
+      gantiPil.push({nama:k.nama,lbl:lb,det:`~${k.k100||k.k1} kkal per ${k.unit==='lbr'?'lembar':'100g'}`});
+    });
+  }
+  document.getElementById('ganti-list').innerHTML=gantiPil.map((p,i)=>
+    `<div class="gitm" onclick="terapkanGanti(${i})"><div class="gnm">${p.nama}</div><div class="gdet">${p.lbl} &bull; ${p.det}</div></div>`
+  ).join('');
+  bukaModal('mo-ganti');
+}
+function terapkanGanti(i){
+  if(!gantiCtx)return;
+  const{hari,waktu,idx}=gantiCtx;
+  try{lsSet(`g_${hari}_${waktu}_${idx}`,{nama:gantiPil[i].nama,lbl:gantiPil[i].lbl});}catch(e){console.warn('Gagal simpan swap:',e);}
+  tutupModal('mo-ganti');
+  renderMinggu(); // I: tidak ada state reset, tab tetap pada posisi sebelumnya
+}
+
+// ══════════════════════════════════
+// UI HELPERS
+// ══════════════════════════════════
+function tampilLayar(id){document.querySelectorAll('.layar').forEach(l=>l.classList.remove('aktif'));document.getElementById(id).classList.add('aktif');}
+
+function mulaiBuat(){
+  try{
+    const su=lsGet('ip90_u',null),sn=lsGet('ip90_n',null);
+    if(su&&sn){
+      U=su;N=sn;
+      sel=lsGet('ip90_sel',{});
+      rwBB=lsGet('ip90_bb',[]);
+      rwPG=lsGet('ip90_pg',[]);
+      streak=parseInt(lsGet('ip90_streak',0))||0;
+      catatanHarian=lsGet('ip90_ch',{});
+      renderProgram();tampilLayar('lp');return;
+    }
+  }catch(e){console.warn('Data rusak.');}
+  tampilLayar('lf');
+}
+
+function gantiTab(t){
+  try{lsSet('ip90_tab',t);}catch{}
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('a',['jadwal','pantauan','pelatih'][i]===t));
+  document.querySelectorAll('.tab-isi').forEach(c=>c.classList.remove('a'));
+  document.getElementById('tab-'+t).classList.add('a');
+  if(t==='pantauan')renderPantauan();
+  if(t==='pelatih')renderPelatih();
+}
+function restoreTab(){
+  // I: kembalikan ke tab terakhir yang aktif
+  const t=lsGet('ip90_tab','jadwal');
+  if(t&&t!=='jadwal')gantiTab(t);
+}
+
+function bukaModal(id){document.getElementById(id).classList.add('o');}
+function tutupModal(id){
+  document.getElementById(id).classList.remove('o');
+  if(id==='mo-timer'&&timerIv){clearInterval(timerIv);timerIv=null;}
+  if(id==='mo-ganti'){const p=document.getElementById('ganti-panduan');if(p)p.style.display='none';}
+}
+function bukaReset(){bukaModal('mo-reset');}
+function konfirmasiReset(){
+  try{
+    ['ip90_u','ip90_n','ip90_sel','ip90_bb','ip90_pg','ip90_streak','ip90_ch','ip90_tab'].forEach(k=>lsDel(k));
+    Object.keys(localStorage).filter(k=>k.startsWith('g_')||k.startsWith('ck_')).forEach(k=>lsDel(k));
+  }catch(e){console.warn('Reset error:',e);}
+  tutupModal('mo-reset');
+  // I: reset state in-memory tanpa location.reload()
+  U=null;N=null;mgg=1;sel={};rwBB=[];rwPG=[];streak=0;catatanHarian={};
+  try{if(grafik){grafik.destroy();grafik=null;}}catch{}
+  tampilLayar('la');
+}
+
+document.querySelectorAll('.mo').forEach(ov=>{
+  ov.addEventListener('click',e=>{if(e.target===ov)tutupModal(ov.id);});
+});
+
+// ══════════════════════════════════
+// INIT
+// ══════════════════════════════════
+(function init(){
+  document.getElementById('la').classList.add('aktif');
+  try{
+    const su=lsGet('ip90_u',null),sn=lsGet('ip90_n',null);
+    if(su&&sn){
+      U=su;N=sn;
+      sel=lsGet('ip90_sel',{});
+      rwBB=lsGet('ip90_bb',[]);
+      rwPG=lsGet('ip90_pg',[]);
+      streak=parseInt(lsGet('ip90_streak',0))||0;
+      catatanHarian=lsGet('ip90_ch',{});
+      renderProgram();
+      tampilLayar('lp');
+      restoreTab(); // I: kembalikan ke tab terakhir
+    }
+  }catch(e){console.warn('Data rusak, kembali ke awal.');}
+})();
+</script>
+</body>
+</html>
